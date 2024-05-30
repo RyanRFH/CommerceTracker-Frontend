@@ -13,7 +13,6 @@ const SearchPage = (props: any) => {
     useEffect(() => {
         if (props.searchResults?.error) {
             setErrorFlag(true);
-
         }
 
     }, [props]);
@@ -28,6 +27,8 @@ const SearchPage = (props: any) => {
                         Loading...
                         <br></br>
                         (May take up to 90 seconds)
+                        <br></br>
+                        (Azure free tier)
                     </div >
                     :
                     <SearchResultsList searchResults={props.searchResults} searchType={props.searchType} />
