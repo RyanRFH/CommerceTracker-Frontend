@@ -38,10 +38,6 @@ const SearchPage = (props: any) => {
                 An error occurred while fetching the product data. Sorry!
             </div>
 
-
-
-
-
         </div>
     );
 };

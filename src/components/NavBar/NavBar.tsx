@@ -16,24 +16,26 @@ const NavBar = () => {
 
 
                 {/* Page Links */}
-                <div className='flex justify-around items-center w-1/4 ml-[100px] text-xl'>
+                <div className='flex justify-around items-center w-[400px] ml-[100px] text-xl'>
                     <a href='/'>
                         <p>Home</p>
                     </a>
                     <a href='/products'>
                         <p>Products</p>
                     </a>
-
                 </div>
                 {/* Page Links */}
 
 
                 {/* Login Link */}
-                <div className='flex items-center justify-end text-xl w-full mr-[50px]'>
-                    <a href='/login'>
-                        <p>Login</p>
-                    </a>
+                <div className='flex items-center justify-end text-xl ml-auto'>
+                    <div className=''>
+                        <a href='/login'>
+                            <p>Login</p>
+                        </a>
+                    </div>
                 </div>
+
                 {/* Login Link */}
 
             </div>

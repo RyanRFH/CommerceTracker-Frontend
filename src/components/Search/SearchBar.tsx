@@ -20,6 +20,7 @@ const SearchBar = (props: SearchProps) => {
     const [oldestCreationDateParam, setOldestCreationDateParam] = useState("");
     const [isDescendingParam, setIsDescendingParam] = useState(false);
     const [sortByParam, setSortByParam] = useState("Name");
+    // const [pageNumberParam, setPageNumberParam] = useState(String);
 
     useEffect(() => {
         const searchParamsRaw = new URLSearchParams(document.location.search);
@@ -30,7 +31,8 @@ const SearchBar = (props: SearchProps) => {
             price: searchParamsRaw.get("price"),
             date: searchParamsRaw.get("createdat"),
             isdescending: searchParamsRaw.get("isdescending"),
-            sortby: searchParamsRaw.get("sortby")
+            sortby: searchParamsRaw.get("sortby"),
+            pageNumber: searchParamsRaw.get("pagenumber")
         };
 
         if (searchParams.nameParam) {
@@ -58,6 +60,12 @@ const SearchBar = (props: SearchProps) => {
         if (searchParams.sortby) {
             setSortByParam(searchParams.sortby);
         }
+
+        // if (searchParams.pageNumber) {
+        //     setPageNumberParam(searchParams.pageNumber);
+        // }
+
+
     }, []);
 
 
@@ -85,6 +93,10 @@ const SearchBar = (props: SearchProps) => {
         if (oldestCreationDateParam) {
             urlWithSearchParams = urlWithSearchParams + `&createdat=${oldestCreationDateParam}`;
         }
+        // if (pageNumberParam) {
+        //     urlWithSearchParams = urlWithSearchParams + `&pagenumber=${pageNumberParam}`;
+        // }
+
 
         urlWithSearchParams = urlWithSearchParams + `&isdescending=${isDescendingParam}`;
 
@@ -98,22 +110,7 @@ const SearchBar = (props: SearchProps) => {
     }
 
     const onMaximumAgeSubmitHandler = (event: any) => {
-        // let dateinMS
-        // let calculatedDateInMS
-        // if (event.target.value) {
-        //     dateinMS = Number.parseInt(event.target.value) * 24 * 60 * 60 * 1000;
-        //     calculatedDateInMS = Date.now() - dateinMS;
-        // }
-
-        // let parsedDate
-        // if (calculatedDateInMS) {
-        //     parsedDate = new Date(calculatedDateInMS).toISOString()
-        // }
-        // if (parsedDate) {
-        //     setOldestCreationDateParam(parsedDate.toString());
-        // }
         setOldestCreationDateParam(event.target.value);
-
     }
 
     return (

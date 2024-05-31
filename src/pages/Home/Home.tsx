@@ -12,7 +12,7 @@ const Home = () => {
             </div>
 
             {/* Page Links */}
-            <div className='flex justify-evenly w-1/2 mt-[50px]'>
+            <div className='flex justify-evenly w-[80%] mt-[50px]'>
                 <div className='flex flex-col items-center'>
                     <p className='text-6xl text-black font-bold'>Products</p>
                     <a href='/products'>

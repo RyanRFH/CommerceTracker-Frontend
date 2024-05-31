@@ -19,7 +19,6 @@ const ProductsSearch = () => {
     let searchParamsDto: Array<string> = [];
     searchParams.forEach((value, key) => { searchParamsDto.push(key); searchParamsDto.push(value) });
 
-    console.log(searchResults);
     if (!searchResults) {
         getProductsByQuery();
     };
