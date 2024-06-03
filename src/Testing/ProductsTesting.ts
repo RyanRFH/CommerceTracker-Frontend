@@ -1,4 +1,7 @@
 export const createProducts = async () => {
+
+    //FOR FILLING THE PRODUCTS DATABASE WITH PRODUCTS USING DUMMY DATA
+
     // let data;
     // try {
     //     const res = await fetch('https://dummyjson.com/products', {

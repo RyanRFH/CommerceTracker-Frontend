@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Search from "../../../components/Search/Search"
 import { GetProductQuery } from "../../../services/ProductServices";
 
@@ -6,7 +6,19 @@ import { GetProductQuery } from "../../../services/ProductServices";
 
 const ProductsSearch = () => {
 
-    console.log("Test")
+    useEffect(() => {
+        const interval = setInterval(() => reloadPage(), 900000);
+
+        return () => clearInterval(interval);
+    });
+
+    console.log("Test");
+
+    //Reload page every 15 minutes
+    const reloadPage = () => {
+        window.location.reload();
+    };
+
 
     const getProductsByQuery = async () => {
         const searchResults = await GetProductQuery(searchParamsDto);
