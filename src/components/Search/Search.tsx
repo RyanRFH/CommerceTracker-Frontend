@@ -25,6 +25,8 @@ const SearchPage = (props: any) => {
                     <div className="text-center">
                         <img className="mx-auto" width="400px" alt="loadinggif" src="https://loading.io/assets/mod/spinner/spinner/lg.gif" />
                         Loading...
+                        (May take up to 90 seconds)
+                        (Azure free tier)
                     </div >
                     :
                     <SearchResultsList searchResults={props.searchResults} searchType={props.searchType} />

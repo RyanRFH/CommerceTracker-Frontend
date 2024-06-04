@@ -8,9 +8,8 @@ const ProductsSearch = () => {
 
     useEffect(() => {
         const interval = setInterval(() => reloadPage(), 900000);
-
         return () => clearInterval(interval);
-    });
+    }, []);
 
     console.log("Test");
 

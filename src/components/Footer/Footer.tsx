@@ -1,7 +1,5 @@
 import React from 'react';
 
-//Try to create a "back to top" button here
-
 const Footer = () => {
 
     const scrollToTopSubmitHandler = () => {
@@ -10,9 +8,9 @@ const Footer = () => {
     }
 
     return (
-        <div className='mt-auto'>
+        <div className='mt-auto pt-[20px]'>
             <div className='flex justify-center items-center'>
-                <button onClick={scrollToTopSubmitHandler} className='flex items-center flex-col-reverse mb-[30px] bg-gray-300 rounded-3xl p-4 '>Back to top
+                <button onClick={scrollToTopSubmitHandler} className='flex items-center flex-col-reverse mb-[30px] bg-gray-200 rounded-3xl p-4 '>Back to top
                     <img className='mb-[5px]' width={"20px"} src='https://www.svgrepo.com/show/93813/up-arrow.svg' alt='backtotopicon' />
                 </button>
             </div>

@@ -4,9 +4,6 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Input from '@mui/joy/Input';
 
-
-//Params finished, do page selection next, then create product button
-
 interface SearchProps {
     searchType: string;
 }

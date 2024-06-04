@@ -14,10 +14,37 @@ const Login = () => {
         setErrorMessage("");
         event.preventDefault();
         const response = await loginUser(username, password);
+
         if (response.error) {
             setErrorMessage(response.error);
+            return;
         }
-        console.log(response)
+
+        window.location.href = `/`;
+    }
+
+    const loginAsGuestUserSubmitHandler = async (event: FormEvent) => {
+        event.preventDefault();
+        const response = await loginUser("GuestUser", "Qwertyuiop123!");
+
+        if (response.error) {
+            setErrorMessage(response.error);
+            return;
+        }
+
+        window.location.href = `/`;
+    }
+
+    const loginAsGuestAdminSubmitHandler = async (event: FormEvent) => {
+        event.preventDefault();
+        const response = await loginUser("GuestAdmin", "Qwertyuiop123!");
+
+        if (response.error) {
+            setErrorMessage(response.error);
+            return;
+        }
+
+        window.location.href = `/`;
     }
 
     return (
@@ -59,13 +86,13 @@ const Login = () => {
 
                     </form>
                     <div className='flex justify-evenly items-center mt-[10px]'>
-                        <button className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-2/5">Sign in as guest (User)</button>
-                        <button className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-2/5">Sign in as guest (Admin)</button>
+                        <button onClick={loginAsGuestUserSubmitHandler} className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-2/5">Sign in as guest (User)</button>
+                        <button onClick={loginAsGuestAdminSubmitHandler} className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-2/5">Sign in as guest (Admin)</button>
                     </div>
 
 
                     <div className="mt-6 text-blue-500 text-center">
-                        <a href="/" className="hover:underline">Sign up</a>
+                        <a href="/signup" className="hover:underline">Sign up</a>
                     </div>
                 </div>
             </div>

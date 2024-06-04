@@ -5,8 +5,6 @@ import ProductCreateForm from '../Products/ProductCreateForm';
 
 const SearchResultsList = (props: any) => {
 
-
-
     let searchResultsArray = [];
     searchResultsArray = props.searchResults?.productsList.$values;
 
@@ -35,8 +33,6 @@ const SearchResultsList = (props: any) => {
         window.location.href = `http://localhost:3000/products?${pageUrl}`;
     };
 
-
-    //FINISH PREV PAGE FUNC
     const previousPageSubmitHandler = () => {
         if (pageNumber - 1 < 1) {
             return;
@@ -66,11 +62,11 @@ const SearchResultsList = (props: any) => {
                         <h2 className="text-gray-600 font-semibold">{searchType.charAt(0).toUpperCase() + searchType.slice(1)}</h2>
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="lg:ml-40 ml-10 space-x-8">
+                        <div className="lg:ml-40 ml-10 space-x-8 relative">
                             <button onClick={() => setIsModalOpen(true)} className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
                                 Create
                             </button>
-                            <div className={`${isModalOpen ? "flex" : "hidden"} absolute bottom-[30px] right-[30px] z-10`}>
+                            <div className={`${isModalOpen ? "flex" : "hidden"} absolute right-[0px] mt-[10px] z-10`}>
                                 <ProductCreateForm closeModalFunc={closeCreateProductModalCallback} />
                             </div>
 
@@ -153,13 +149,13 @@ const SearchResultsList = (props: any) => {
                                 <div className="inline-flex mt-2 xs:mt-0">
                                     <button
                                         onClick={previousPageSubmitHandler}
-                                        className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
+                                        className={`${pageNumber === 1 && "opacity-[50%]"} text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l`}>
                                         Prev
                                     </button>
                                     &nbsp; &nbsp;
                                     <button
                                         onClick={nextPageSubmitHandler}
-                                        className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
+                                        className={`${pageNumber === totalPageCount && "opacity-[50%]"} text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r`}>
                                         Next
                                     </button>
                                 </div>
