@@ -57,7 +57,7 @@ const ProductCreateForm = (props: any) => {
     };
 
     return (
-        <div className="p-4 rounded-lg min-w-[350px] bg-gray-50 border-4 max-w-[400px]">
+        <div className="p-4 rounded-lg min-w-[300px] md:min-w-[375px] bg-gray-50 border-4">
             <div className='flex justify-between'>
                 <h1>Add a new product</h1>
                 <button onClick={props.closeModalFunc} className='bg-gray-200 py-[5px] px-[12px] rounded-lg'>X</button>

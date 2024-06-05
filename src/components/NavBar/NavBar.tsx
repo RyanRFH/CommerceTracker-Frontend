@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import logo from "../../assets/etrack-logo-zip-file/png/logo-no-background.png"
 import { getUser } from '../../services/AccountServices';
 import { deleteCookie } from '../../common/Cookies/cookies';
@@ -31,24 +31,35 @@ const NavBar = () => {
         getUserDetails();
     }, []);
 
+    //Close user selection box modal if user clicks anywhere on window
+    let modal: RefObject<HTMLDivElement> = useRef(null);
+    const handleOutsideClick = (e: MouseEvent) => {
+
+        if (modal.current?.contains(e.target as Node)) {
+            return;
+        }
+        setIsUserModalOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+
 
 
 
     return (
-        <div className='flex justify-center border-b-[2px]'>
-            <div className='flex w-[90%]'>
+        <div className='flex justify-center border-b-[2px] text-sm md:text-xl'>
+            <div className='flex w-[100%] md:w-[90%]'>
 
                 {/* Logo */}
                 <div className=''>
                     <a href='/'>
-                        <img src={logo} width="200px" className='ml-[20px] my-[10px]' alt='logo' />
+                        <img src={logo} className='max-w-[75px] md:max-w-[150px] ml-[20px] my-[10px]' alt='logo' />
                     </a>
                 </div>
                 {/* Logo */}
 
 
                 {/* Page Links */}
-                <div className='flex justify-around items-center w-[400px] ml-[100px] text-xl'>
+                <div className='flex justify-around items-center w-1/2 ml-[20px]'>
                     <a href='/'>
                         <p>Home</p>
                     </a>
@@ -64,15 +75,15 @@ const NavBar = () => {
 
 
                 {/* Login Link */}
-                <div className='flex items-center justify-end text-xl ml-auto'>
+                <div className='flex items-center justify-end ml-auto border-l'>
                     <div className=''>
                         {userDetails.userName ?
-                            <div className='relative'>
+                            <div className='relative mx-[5px]'>
                                 <button onClick={() => setIsUserModalOpen(!isUserModalOpen)} className='flex items-center'>
-                                    <img className='mr-[5px]' width={"40px"} alt='usericon' src='https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg' />
+                                    <img className='mr-[5px] w-[40px] hidden md:block' alt='usericon' src='https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg' />
                                     <p>{userDetails.userName}</p>
                                 </button>
-                                <div className={`${isUserModalOpen ? "flex" : "hidden"} ] absolute right-[10px]`}>
+                                <div ref={modal} className={`${isUserModalOpen ? "flex" : "hidden"} ] absolute right-[10px]`}>
 
                                     <div className="z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
                                         <button onClick={profileSubmitHandler} className="block w-full hover:bg-gray-100 px-4 py-2 text-sm text-gray-700" role="menuitem" id="user-menu-item-2">Profile</button>
