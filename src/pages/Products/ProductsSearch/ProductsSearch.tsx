@@ -38,7 +38,7 @@ const ProductsSearch = () => {
 
     return (
         <div className='h-full'>
-            {searchResults && <Search searchType="products" searchResults={searchResults}></Search>}
+            <Search searchType="products" searchResults={searchResults}></Search>
 
         </div>
     );
