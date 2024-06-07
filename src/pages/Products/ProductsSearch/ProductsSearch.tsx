@@ -18,12 +18,12 @@ const ProductsSearch = () => {
         window.location.reload();
     };
 
-
+    const [searchResults, setSearchResults] = useState();
     const getProductsByQuery = async () => {
         const searchResults = await GetProductQuery(searchParamsDto);
         setSearchResults(searchResults);
     };
-    const [searchResults, setSearchResults] = useState();
+
 
     //Get url params and send them to the product service for API calling
     const searchParams = new URLSearchParams(document.location.search);
@@ -37,8 +37,9 @@ const ProductsSearch = () => {
 
 
     return (
-        <div>
-            <Search searchType="products" searchResults={searchResults}></Search>
+        <div className='h-full'>
+            {searchResults && <Search searchType="products" searchResults={searchResults}></Search>}
+
         </div>
     );
 };

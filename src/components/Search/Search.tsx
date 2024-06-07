@@ -18,11 +18,11 @@ const SearchPage = (props: any) => {
     }, [props]);
 
     return (
-        <div className="">
+        <div className="h-full">
             <SearchBar searchType={props.searchType} />
-            <div className={`${errorFlag && "hidden"}`}>
+            <div className={`${errorFlag && "hidden"} h-full`}>
                 {!props.searchResults?.$id ?
-                    <div className="text-center">
+                    <div className="text-center h-full">
                         <img className="mx-auto" width="400px" alt="loadinggif" src="https://loading.io/assets/mod/spinner/spinner/lg.gif" />
                         Loading...
                         (May take up to 90 seconds)

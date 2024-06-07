@@ -39,7 +39,7 @@ export const GetProductQuery = async (query: Array<string>) => {
         console.log("Error in services/products/GetProductQuery");
         return { error: error };
     }
-}
+};
 
 export const CreateProduct = async (product: Product) => {
     const userJWt = getCookie("login-jwt");
@@ -63,4 +63,21 @@ export const CreateProduct = async (product: Product) => {
         console.log("Error in services/products/CreateProduct");
         return { error: error };
     }
+};
+
+//Get a single product
+export const GetProductSingle = async (queryType: string, queryValue: string) => {
+
+    try {
+        const response = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/product?${queryType}=${queryValue}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Error in services/products/GetProductSingle");
+        return { error: error };
+    }
+
 };

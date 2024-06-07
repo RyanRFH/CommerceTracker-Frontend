@@ -60,14 +60,14 @@ const NavBar = () => {
 
                 {/* Page Links */}
                 <div className='flex justify-around items-center w-1/2 ml-[20px]'>
-                    <a href='/'>
+                    <a className='hover:opacity-50' href='/'>
                         <p>Home</p>
                     </a>
-                    <a href='/products'>
+                    <a className='hover:opacity-50' href='/products'>
                         <p>Products</p>
                     </a>
 
-                    <a href='/orders'>
+                    <a className='hover:opacity-50' href='/orders'>
                         <p>Orders</p>
                     </a>
                 </div>
@@ -78,10 +78,16 @@ const NavBar = () => {
                 <div className='flex items-center justify-end ml-auto border-l'>
                     <div className=''>
                         {userDetails.userName ?
-                            <div className='relative mx-[5px]'>
-                                <button onClick={() => setIsUserModalOpen(!isUserModalOpen)} className='flex items-center'>
+                            <div className='flex relative mx-[5px]'>
+                                <div className='flex items-center mx-[30px] hover:animate-bounce'>
+                                    <a href='/basket'>
+                                        <img className='w-[40px]' src='https://icons.veryicon.com/png/o/system/dan_system/shopping-basket-11.png' />
+                                    </a>
+
+                                </div>
+                                <button onClick={() => setIsUserModalOpen(!isUserModalOpen)} className='flex items-center hover:opacity-50'>
                                     <img className='mr-[5px] w-[40px] hidden md:block' alt='usericon' src='https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg' />
-                                    <p>{userDetails.userName}</p>
+                                    <p className=''>{userDetails.userName}</p>
                                 </button>
                                 <div ref={modal} className={`${isUserModalOpen ? "flex" : "hidden"} ] absolute right-[10px]`}>
 
@@ -90,13 +96,12 @@ const NavBar = () => {
                                         {/* <p>Settings</p> */}
                                         <button onClick={logoutSubmitHandler} className="block w-full hover:bg-gray-100 px-4 py-2 text-sm text-gray-700" role="menuitem" id="user-menu-item-2">Sign out</button>
                                     </div>
-
-
                                 </div>
+
 
                             </div>
                             :
-                            <a href='/login'>
+                            <a className='mx-[5px]' href='/login'>
                                 <p>Login</p>
                             </a>
                         }

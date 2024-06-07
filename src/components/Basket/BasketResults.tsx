@@ -1,91 +1,9 @@
-import React, { LegacyRef, MutableRefObject, RefObject, useRef, useState } from 'react';
-import { createProducts } from '../../Testing/ProductsTesting';
-import { useLocation } from 'react-router-dom';
-import ProductCreateForm from '../Products/ProductCreateForm';
-import { Button } from '@mui/joy';
-import { addToBasket } from '../../services/BasketService';
+import React from 'react';
 
-const SearchResultsList = (props: any) => {
-
-    let searchResultsArray = [];
-    searchResultsArray = props.searchResults?.productsList.$values;
-
-    let pageNumber: any;
-    pageNumber = props.searchResults?.pageNumber;
-
-    let pageNumberForDisplay;
-    pageNumberForDisplay = props.searchResults?.pageNumber - 1;
-
-    let totalProductCount = 0;
-    totalProductCount = props.searchResults?.totalProductCount;
-
-    let totalPageCount: any;
-    totalPageCount = Math.ceil(totalProductCount / 20);
-
-    let searchType: string = props.searchType;
-
-    const nextPageSubmitHandler = () => {
-        if (pageNumber + 1 > totalPageCount) {
-            return;
-        }
-        const pageUrl = new URLSearchParams(document.location.search);
-        pageUrl.set("pagenumber", `${(pageNumber + 1)}`);
-        window.location.href = `http://localhost:3000/products?${pageUrl}`;
-    };
-
-    const previousPageSubmitHandler = () => {
-        if (pageNumber - 1 < 1) {
-            return;
-        }
-        const pageUrl = new URLSearchParams(document.location.search);
-        pageUrl.set("pagenumber", `${(pageNumber - 1)}`);
-        window.location.href = `http://localhost:3000/products?${pageUrl}`;
-    };
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const closeCreateProductModalCallback = () => {
-        setIsModalOpen(false);
-    };
-
-
-
-    //Close create product modal if user clicks anywhere on window
-    let modal: RefObject<HTMLDivElement> = useRef(null);
-    const handleOutsideClick = (e: MouseEvent) => {
-        if (modal.current?.contains(e.target as Node)) {
-            return;
-        }
-        setIsModalOpen(false);
-    };
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    //For adding fake products to the database for testing
-    // const runProductDataFill = async () => {
-    //     createProducts();
-    // }
-
-
+const BasketResults = (props: any) => {
     return (
         <div className='flex flex-col flex-wrap items-center h-full'>
-            {/* <button className='bg-red-500 text-3xl' onClick={runProductDataFill}>CREATE FAKE PRODUCT (FOR TESTING)</button> */}
-            <div className="flex flex-col items-center bg-white p-2 rounded-md w-full h-full">
-                <div className="flex items-center w-[80%] justify-between pb-6 h-full">
-                    <div>
-                        <h2 className="text-gray-600 font-semibold">{searchType.charAt(0).toUpperCase() + searchType.slice(1)}</h2>
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <div className="lg:ml-40 ml-10 space-x-8 relative">
-                            <button onClick={() => setIsModalOpen(!isModalOpen)} className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700">
-                                Create
-                            </button>
-                            <div ref={modal} id='createProductModal' className={`${isModalOpen ? "flex" : "hidden"} absolute right-[0px] mt-[10px] z-10`}>
-                                <ProductCreateForm closeModalFunc={closeCreateProductModalCallback} />
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
+            {/* <div className="flex flex-col items-center bg-white p-2 rounded-md w-full h-full">
                 <div className='h-full'>
                     <div className="px-4 sm:px-8 py-4 overflow-x-auto h-full">
                         <div className="inline-block min-w-full shadow rounded-lg overflow-hidden h-full">
@@ -171,9 +89,9 @@ const SearchResultsList = (props: any) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };
 
-export default SearchResultsList;
+export default BasketResults;

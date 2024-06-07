@@ -18,7 +18,7 @@ export const getCookie = (cookieName: string) => {
         }
         return cookie
     } catch (error) {
-        return false
+        return false;
     }
 }
 
