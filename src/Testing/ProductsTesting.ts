@@ -1,6 +1,8 @@
+import { getCookie } from "../common/Cookies/cookies";
+
 export const createProducts = async () => {
 
-    //FOR FILLING THE PRODUCTS DATABASE WITH PRODUCTS USING DUMMY DATA
+    // FOR FILLING THE PRODUCTS DATABASE WITH PRODUCTS USING DUMMY DATA
 
     // let data;
     // try {
@@ -16,14 +18,16 @@ export const createProducts = async () => {
     //     return { error: error };
     // }
 
+    // //Manually increment to add each product (individually)
     // let prodNum = 0;
 
+    // let jwt = getCookie("login-jwt");
     // try {
     //     const res: any = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/product`, {
     //         method: "POST",
     //         headers: {
     //             "Content-Type": "application/json",
-    //             "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJnaXZlbl9uYW1lIjoiUnlhbiIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNzA3OTQzMywiZXhwIjoxNzE3Njg0MjMzLCJpYXQiOjE3MTcwNzk0MzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTI0NiIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTI0NiJ9.QNijN_JR3Sx-_nV48rDyk0ZdnwLxvrEzQBI3a_16EMNZaBK5aRrLZnecm19jIuTYJmjzCquhru1wxdFxf3Ru3A"
+    //             "Authorization": `Bearer ${jwt}`
     //         },
     //         body: JSON.stringify({
     //             name: `${data.products[prodNum].title}`,
