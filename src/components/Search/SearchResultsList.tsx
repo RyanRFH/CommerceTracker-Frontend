@@ -30,7 +30,7 @@ const SearchResultsList = (props: any) => {
         }
         const pageUrl = new URLSearchParams(document.location.search);
         pageUrl.set("pagenumber", `${(pageNumber + 1)}`);
-        window.location.href = `http://localhost:3000/products?${pageUrl}`;
+        window.location.href = `/products?${pageUrl}`;
     };
 
     const previousPageSubmitHandler = () => {
@@ -39,7 +39,7 @@ const SearchResultsList = (props: any) => {
         }
         const pageUrl = new URLSearchParams(document.location.search);
         pageUrl.set("pagenumber", `${(pageNumber - 1)}`);
-        window.location.href = `http://localhost:3000/products?${pageUrl}`;
+        window.location.href = `/products?${pageUrl}`;
     };
 
     const [isModalOpen, setIsModalOpen] = useState(false);
