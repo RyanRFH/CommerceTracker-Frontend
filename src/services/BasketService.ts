@@ -1,4 +1,4 @@
-import { getCookie, writeCookie } from "../common/Cookies/cookies";
+import { deleteCookie, getCookie, writeCookie } from "../common/Cookies/cookies";
 
 //Add product to basket cookie
 export const addToBasket = (productId: string) => {
@@ -8,5 +8,27 @@ export const addToBasket = (productId: string) => {
         return { success: true };
     }
     writeCookie("basket", cookie + "," + productId, 30);
+    return { success: true };
+};
+
+//Remove product from basket cookie
+export const removeFromBasket = (productId: string) => {
+    const cookie = getCookie("basket");
+    if (!cookie) {
+        console.log("Cookie not found");
+        return "Cookie not found";
+    }
+
+    let productsArray = cookie.split(",");
+
+    const filteredProductsArray = productsArray.filter(id => id !== productId);
+
+    let productListAsString = filteredProductsArray.toString();
+
+    deleteCookie("basket");
+    if (productListAsString) {
+        writeCookie("basket", productListAsString, 30);
+    }
+
     return { success: true };
 };

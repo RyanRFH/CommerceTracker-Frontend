@@ -1,47 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getCookie } from '../../common/Cookies/cookies';
-import { GetProductSingle } from '../../services/ProductServices';
+import { GetProductList } from '../../services/ProductServices';
 import BasketResults from '../../components/Basket/BasketResults';
+import { removeFromBasket } from '../../services/BasketService';
 
 const Basket = () => {
 
-    const [productsList, setProductsList] = useState();
+    const [productsList, setProductsList] = useState(Array<Object>);
 
-    const getBasketData = () => {
-
-        const cookies = getCookie("basket");
-
-        if (typeof cookies === "string") {
-            return cookies.split(",");
-        }
-
-        return { error: "Error in getBasketData" };
-
+    const onClickRemoveFromBasketHandler = (productid: string) => {
+        removeFromBasket(productid);
+        getProduct();
     };
 
+
     const getProduct = async () => {
-        let cookiesArray = getBasketData();
 
-        // console.log("cookiesarray = ", cookiesArray);
+        const cookiesString = getCookie("basket");
 
-        if ('error' in cookiesArray) {
-            return;
+        if (typeof cookiesString !== "string") {
+            console.log("Cookie not found");
+            setProductsList([{}]);
+            return "Error in cookies";
         }
 
-        if (cookiesArray.length === 0) {
+        if (cookiesString.length === 0) {
             return { error: "No cookies found" };
         }
 
         try {
-            const product = await GetProductSingle("productid", cookiesArray[0]);
-            console.log(product);
+            const products = await GetProductList("productid", cookiesString);
 
-            if (!product?.productsList?.$values?.[0]) {
+            if (products.error) {
                 console.log({ error: "Product not found" });
-                return { error: "Product not found" };
+                return { error: products.error };
             };
 
-            setProductsList(product.productsList.$values[0]);
+            setProductsList(products.$values);
             return true;
 
         } catch (error) {
@@ -50,16 +45,13 @@ const Basket = () => {
         };
     };
 
-    if (!productsList) {
+    if (productsList.length === 0) {
         getProduct();
     }
 
-    // console.log(productsList);
-
     return (
         <div>
-            {productsList && <BasketResults productsList={productsList} />}
-
+            <BasketResults productsList={productsList} updateBasketCallback={onClickRemoveFromBasketHandler} />
         </div>
     );
 };

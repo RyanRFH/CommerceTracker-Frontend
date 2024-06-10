@@ -6,17 +6,7 @@ import { GetProductQuery } from "../../../services/ProductServices";
 
 const ProductsSearch = () => {
 
-    useEffect(() => {
-        const interval = setInterval(() => reloadPage(), 900000);
-        return () => clearInterval(interval);
-    }, []);
-
     console.log("Test");
-
-    //Reload page every 15 minutes
-    const reloadPage = () => {
-        window.location.reload();
-    };
 
     const [searchResults, setSearchResults] = useState();
     const getProductsByQuery = async () => {

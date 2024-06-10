@@ -79,5 +79,19 @@ export const GetProductSingle = async (queryType: string, queryValue: string) =>
         console.log("Error in services/products/GetProductSingle");
         return { error: error };
     }
+};
 
+//Get a list of products from a list of value (e.g. productids)
+export const GetProductList = async (queryType: string, queryValues: string) => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/product/list?queryType=${queryType}&queryValues=${queryValues}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Error in services/products/GetProductList");
+        return { error: error };
+    }
 };

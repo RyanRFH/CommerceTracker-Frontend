@@ -16,7 +16,7 @@ const Login = () => {
         const response = await loginUser(username, password);
 
         if (response.error) {
-            setErrorMessage(response.error);
+            setErrorMessage("An error occurred");
             return;
         }
 
@@ -28,7 +28,7 @@ const Login = () => {
         const response = await loginUser("GuestUser", "Qwertyuiop123!");
 
         if (response.error) {
-            setErrorMessage(response.error);
+            setErrorMessage("An error occurred");
             return;
         }
 
@@ -40,7 +40,7 @@ const Login = () => {
         const response = await loginUser("GuestAdmin", "Qwertyuiop123!");
 
         if (response.error) {
-            setErrorMessage(response.error);
+            setErrorMessage("An error occurred");
             return;
         }
 

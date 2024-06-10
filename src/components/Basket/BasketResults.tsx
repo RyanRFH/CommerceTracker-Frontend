@@ -1,12 +1,36 @@
-import React from 'react';
+import { Button } from '@mui/joy';
+import React, { useEffect, useState } from 'react';
+import { removeFromBasket } from '../../services/BasketService';
 
 const BasketResults = (props: any) => {
+
+    // const [productBasket, setProductBasket] = useState();
+
+    // useEffect(() => {
+
+    // }, [productBasket]);
+
+
+
+    const onClickRemoveFromBasketHandler = (productid: string) => {
+        props.updateBasketCallback(productid);
+    };
+
     return (
-        <div className='flex flex-col flex-wrap items-center h-full'>
-            {/* <div className="flex flex-col items-center bg-white p-2 rounded-md w-full h-full">
-                <div className='h-full'>
+        <div className='flex flex-col flex-wrap items-center h-full mt-[30px]'>
+            <div className="flex flex-col items-center bg-white p-2 rounded-md w-full h-full">
+                <div className='h-full w-full'>
+                    <div>
+                        <h2 className="text-gray-600 font-semibold text-2xl ml-[50px]">Basket</h2>
+                    </div>
+                    <div className='flex items-center justify-center'>
+                        {!props?.productsList[0]?.name && <p className='text-3xl mt-[30px]'>No items in basket</p>}
+                    </div>
+
                     <div className="px-4 sm:px-8 py-4 overflow-x-auto h-full">
+
                         <div className="inline-block min-w-full shadow rounded-lg overflow-hidden h-full">
+
                             <table className="w-full leading-normal h-full">
                                 <thead>
                                     <tr className='hidden h-14 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b-2'>
@@ -18,7 +42,7 @@ const BasketResults = (props: any) => {
                                     </tr>
                                 </thead>
                                 <tbody className='flex flex-col items-center h-full'>
-                                    {searchResultsArray && searchResultsArray.map((product: any, index: number) => {
+                                    {props?.productsList[0]?.name && props.productsList.map((product: any, index: number) => {
                                         return (
                                             <tr className='flex flex-col md:flex-row md:w-[80%] items-center border-b h-full' key={index}>
                                                 <td className="border-gray-200 bg-white text-sm leading-8 w-full md:w-1/2 h-full flex items-center justify-center">
@@ -60,36 +84,17 @@ const BasketResults = (props: any) => {
                                                             {(((Date.now() - Date.parse(product.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
                                                         </span>
                                                     </span>
-                                                    <Button onClick={() => addToBasket(product.productId)} className=''>Add to basket</Button>
+                                                    <Button onClick={() => onClickRemoveFromBasketHandler(product.productId)} className=''>Remove from basket</Button>
                                                 </td>
                                             </tr>
                                         )
                                     })}
                                 </tbody>
                             </table>
-                            <div
-                                className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-                                <span className="text-xs xs:text-sm text-gray-900">
-                                    {`Showing ${pageNumberForDisplay * 20 + 1} to ${pageNumberForDisplay * 20 + 20 > totalProductCount ? totalProductCount : pageNumberForDisplay * 20 + 20} of ${totalProductCount} Entries`}
-                                </span>
-                                <div className="inline-flex mt-2 xs:mt-0">
-                                    <button
-                                        onClick={previousPageSubmitHandler}
-                                        className={`${pageNumber === 1 && "opacity-[50%]"} text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l`}>
-                                        Prev
-                                    </button>
-                                    &nbsp; &nbsp;
-                                    <button
-                                        onClick={nextPageSubmitHandler}
-                                        className={`${pageNumber === totalPageCount && "opacity-[50%]"} text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r`}>
-                                        Next
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 };
