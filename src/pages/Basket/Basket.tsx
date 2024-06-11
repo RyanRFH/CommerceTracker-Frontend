@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getCookie } from '../../common/Cookies/cookies';
+import { deleteCookie, getCookie } from '../../common/Cookies/cookies';
 import { GetProductList } from '../../services/ProductServices';
 import BasketResults from '../../components/Basket/BasketResults';
 import { removeFromBasket } from '../../services/BasketService';
@@ -7,6 +7,8 @@ import { removeFromBasket } from '../../services/BasketService';
 const Basket = () => {
 
     const [productsList, setProductsList] = useState(Array<Object>);
+
+    const [errorMessage, setErrorMessage] = useState("");
 
     const onClickRemoveFromBasketHandler = (productid: string) => {
         removeFromBasket(productid);
@@ -31,8 +33,12 @@ const Basket = () => {
         try {
             const products = await GetProductList("productid", cookiesString);
 
+            console.log("products = ", products);
+
             if (products.error) {
-                console.log({ error: "Product not found" });
+                console.log("Product not found");
+                setErrorMessage("Invalid basket, please add items again");
+                deleteCookie("basket");
                 return { error: products.error };
             };
 
@@ -47,11 +53,15 @@ const Basket = () => {
 
     if (productsList.length === 0) {
         getProduct();
-    }
+    };
 
     return (
         <div>
             <BasketResults productsList={productsList} updateBasketCallback={onClickRemoveFromBasketHandler} />
+
+            <div className='flex justify-center'>
+                {errorMessage && <p>{errorMessage}</p>}
+            </div>
         </div>
     );
 };

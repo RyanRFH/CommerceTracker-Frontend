@@ -1,11 +1,17 @@
-import React, { LegacyRef, MutableRefObject, RefObject, useRef, useState } from 'react';
+import React, { LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
 import { createProducts } from '../../Testing/ProductsTesting';
 import { useLocation } from 'react-router-dom';
 import ProductCreateForm from '../Products/ProductCreateForm';
 import { Button } from '@mui/joy';
 import { addToBasket } from '../../services/BasketService';
+// import { getCookie } from '../../common/Cookies/cookies';
 
 const SearchResultsList = (props: any) => {
+
+    useEffect(() => {
+        const interval = setInterval(() => setProductAddedMessageState("hidden"), 5000);
+        return () => clearInterval(interval);
+    });
 
     let searchResultsArray = [];
     searchResultsArray = props.searchResults?.productsList.$values;
@@ -23,6 +29,32 @@ const SearchResultsList = (props: any) => {
     totalPageCount = Math.ceil(totalProductCount / 20);
 
     let searchType: string = props.searchType;
+
+    const [productAddedMessage, setproductAddedMessage] = useState("TESTING");
+    let [productAddedMessageState, setProductAddedMessageState] = useState("hidden"); //fixed or hidden
+
+    const addItemToBasketClickHandler = (productId: string, productName: string) => {
+        // let basketCookie = getCookie("basket");
+        // if (basketCookie) {
+        //     console.log(basketCookie.length)
+        //     if (basketCookie.length > 72) {
+        //         setproductAddedMessage("Basket limit reached (5 products)");
+        //         return;
+        //     }
+        // }
+        // console.log(basketCookie);
+        let response = addToBasket(productId);
+
+        if (response.success === false) {
+            if (response.reason) {
+                setproductAddedMessage(`${productName} ${response.reason}`);
+                setProductAddedMessageState("fixed");
+                return;
+            }
+        }
+        setproductAddedMessage(`${productName} added to basket`);
+        setProductAddedMessageState("fixed");
+    };
 
     const nextPageSubmitHandler = () => {
         if (pageNumber + 1 > totalPageCount) {
@@ -67,6 +99,12 @@ const SearchResultsList = (props: any) => {
 
     return (
         <div className='flex flex-col flex-wrap items-center h-full'>
+            {productAddedMessage
+                &&
+                <div className={`${productAddedMessageState} right-[30px] top-[80px] text-xl z-10 bg-white w-[200px] border-2 `}>
+                    {productAddedMessage}
+                </div>
+            }
             {/* <button className='bg-red-500 text-3xl' onClick={runProductDataFill}>CREATE FAKE PRODUCT (FOR TESTING)</button> */}
             <div className="flex flex-col items-center bg-white p-2 rounded-md w-full h-full">
                 <div className="flex items-center w-[80%] justify-between pb-6 h-full">
@@ -147,7 +185,7 @@ const SearchResultsList = (props: any) => {
                                                             {(((Date.now() - Date.parse(product.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
                                                         </span>
                                                     </span>
-                                                    <Button onClick={() => addToBasket(product.productId)} className=''>Add to basket</Button>
+                                                    <Button onClick={() => addItemToBasketClickHandler(product.productId, product.name)} className=''>Add to basket</Button>
                                                 </td>
                                             </tr>
                                         )

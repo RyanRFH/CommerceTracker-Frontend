@@ -7,6 +7,11 @@ export const addToBasket = (productId: string) => {
         writeCookie("basket", productId, 30);
         return { success: true };
     }
+
+    let productsArray = cookie.split(",");
+    if (productsArray.includes(productId)) {
+        return { success: false, reason: "is already in your basket" };
+    }
     writeCookie("basket", cookie + "," + productId, 30);
     return { success: true };
 };
