@@ -98,8 +98,8 @@ const NavBar = () => {
                     <div className='h-full'>
                         {userDetails.userName ?
                             <div className='flex items-center relative mx-[0px] h-full'>
-                                <a href='/basket'>
-                                    <div className='flex items-center px-[5px] md:px-[10px] lg:px-[30px] hover:animate-bounce h-full'>
+                                <a className='h-full' href='/basket'>
+                                    <div className='flex items-center px-[5px] md:px-[30px] hover:animate-bounce h-full'>
                                         <img className='max-w-[20px] md:max-w-[40px]' src='https://icons.veryicon.com/png/o/system/dan_system/shopping-basket-11.png' />
                                     </div>
                                 </a>

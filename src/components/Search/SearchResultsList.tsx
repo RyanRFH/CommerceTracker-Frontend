@@ -4,14 +4,16 @@ import { useLocation } from 'react-router-dom';
 import ProductCreateForm from '../Products/ProductCreateForm';
 import { Button } from '@mui/joy';
 import { addToBasket } from '../../services/BasketService';
+import { getUser } from '../../services/AccountServices';
 // import { getCookie } from '../../common/Cookies/cookies';
 
 const SearchResultsList = (props: any) => {
 
     useEffect(() => {
+        getUserDetails();
         const interval = setInterval(() => setProductAddedMessageState("hidden"), 5000);
         return () => clearInterval(interval);
-    });
+    }, []);
 
     let searchResultsArray = [];
     searchResultsArray = props.searchResults?.productsList.$values;
@@ -30,7 +32,21 @@ const SearchResultsList = (props: any) => {
 
     let searchType: string = props.searchType;
 
-    const [productAddedMessage, setproductAddedMessage] = useState("TESTING");
+    const [userDetails, setUserDetails] = useState(Object);
+
+    const getUserDetails = async () => {
+        const user = await getUser();
+        if (user.error) {
+            return;
+        }
+        if (user) {
+            setUserDetails(user);
+        }
+    }
+    console.log(userDetails);
+
+    const [productAddedMessage, setProductAddedMessage] = useState(`Item added to basket`);
+    const [productAdded, setProductAdded] = useState("");
     let [productAddedMessageState, setProductAddedMessageState] = useState("hidden"); //fixed or hidden
 
     const addItemToBasketClickHandler = (productId: string, productName: string) => {
@@ -47,12 +63,14 @@ const SearchResultsList = (props: any) => {
 
         if (response.success === false) {
             if (response.reason) {
-                setproductAddedMessage(`${productName} ${response.reason}`);
+                setProductAdded(`${productName}`);
+                setProductAddedMessage(`${response.reason}`);
                 setProductAddedMessageState("fixed");
                 return;
             }
         }
-        setproductAddedMessage(`${productName} added to basket`);
+        setProductAdded(`${productName}`);
+        setProductAddedMessage(`added to basket`);
         setProductAddedMessageState("fixed");
     };
 
@@ -101,8 +119,9 @@ const SearchResultsList = (props: any) => {
         <div className='flex flex-col flex-wrap items-center h-full'>
             {productAddedMessage
                 &&
-                <div className={`${productAddedMessageState} right-[30px] top-[80px] text-xl z-10 bg-white w-[200px] border-2 `}>
-                    {productAddedMessage}
+                <div className={`${productAddedMessageState} right-[30px] top-[80px] text-xl z-10 bg-white w-[200px] min-h-[100px] border-2 text-center py-[15px]`}>
+                    <p className='t text-gray-500'>{`${productAdded}`}</p>
+                    <p >{`${productAddedMessage}`}</p>
                 </div>
             }
             {/* <button className='bg-red-500 text-3xl' onClick={runProductDataFill}>CREATE FAKE PRODUCT (FOR TESTING)</button> */}
@@ -112,15 +131,24 @@ const SearchResultsList = (props: any) => {
                         <h2 className="text-gray-600 font-semibold">{searchType.charAt(0).toUpperCase() + searchType.slice(1)}</h2>
                     </div>
                     <div className="flex items-center justify-between">
-                        <div className="lg:ml-40 ml-10 space-x-8 relative">
-                            <button onClick={() => setIsModalOpen(!isModalOpen)} className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700">
-                                Create
-                            </button>
-                            <div ref={modal} id='createProductModal' className={`${isModalOpen ? "flex" : "hidden"} absolute right-[0px] mt-[10px] z-10`}>
-                                <ProductCreateForm closeModalFunc={closeCreateProductModalCallback} />
-                            </div>
+                        {userDetails.role === "Admin" ?
+                            <div className="lg:ml-40 ml-10 space-x-8 relative">
+                                <button onClick={() => setIsModalOpen(!isModalOpen)} className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700">
+                                    Create
+                                </button>
+                                <div ref={modal} id='createProductModal' className={`${isModalOpen ? "flex" : "hidden"} absolute right-[0px] mt-[10px] z-10`}>
+                                    <ProductCreateForm closeModalFunc={closeCreateProductModalCallback} />
+                                </div>
 
-                        </div>
+                            </div>
+                            :
+                            <div className="lg:ml-40 ml-10 space-x-8 relative">
+                                <div className="bg-indigo-600 pointer-events-none opacity-25 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700">
+                                    Create
+                                </div>
+                            </div>
+                        }
+
                     </div>
                 </div>
 
