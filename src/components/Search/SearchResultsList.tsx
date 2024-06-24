@@ -2,7 +2,7 @@ import React, { LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useSt
 import { createProducts } from '../../Testing/ProductsTesting';
 import { useLocation } from 'react-router-dom';
 import ProductCreateForm from '../Products/ProductCreateForm';
-import { Button } from '@mui/joy';
+import { Button, Tooltip } from '@mui/joy';
 import { addToBasket } from '../../services/BasketService';
 import { getUser } from '../../services/AccountServices';
 // import { getCookie } from '../../common/Cookies/cookies';
@@ -143,9 +143,15 @@ const SearchResultsList = (props: any) => {
                             </div>
                             :
                             <div className="lg:ml-40 ml-10 space-x-8 relative">
-                                <div className="bg-indigo-600 pointer-events-none opacity-25 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700">
-                                    Create
-                                </div>
+                                <Tooltip title="Admin required to create products" arrow>
+                                    <div>
+                                        <div className="bg-indigo-600 pointer-events-none opacity-25 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700">
+                                            <p>Create</p>
+                                        </div>
+                                    </div>
+
+                                </Tooltip>
+
                             </div>
                         }
 
