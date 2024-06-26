@@ -45,7 +45,6 @@ const Home = () => {
                 </div>
 
             </div>
-
             {/* Page Links */}
 
             {/* Adverts */}

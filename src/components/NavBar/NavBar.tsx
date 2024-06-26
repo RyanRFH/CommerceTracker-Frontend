@@ -63,7 +63,7 @@ const NavBar = () => {
                 {/* Page Links */}
                 <div className='flex justify-center md:hidden items-center w-1/2 mx-[10px]'>
                     <Dropdown>
-                        <MenuButton>Menu</MenuButton>
+                        <MenuButton><img alt='burger icon' className='w-[20px]' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1200px-Hamburger_icon.svg.png' /></MenuButton>
                         <Menu className='bg-white border px-[20px] py-[10px]'>
                             <a className='hover:opacity-50' href='/'>
                                 <p>Home</p>
@@ -121,9 +121,12 @@ const NavBar = () => {
 
                             </div>
                             :
-                            <a className='mx-[5px]' href='/login'>
-                                <p>Login</p>
-                            </a>
+                            <div className='flex items-center justify-center  mx-[5px] h-full min-w-[100px] md:min-w-[150px]'>
+                                <a href='/login'>
+                                    <p>Login</p>
+                                </a>
+                            </div>
+
                         }
 
 

@@ -11,12 +11,17 @@ export const loginUser = async (username: string, password: string) => {
                 password: password
             })
         });
-
+        console.log("res = ", response);
+        if (response.ok === false) {
+            throw new Error("Response.ok was false");
+        }
         const data = await response.json();
+
         writeCookie("login-jwt", data.token, 14);
 
         return data;
     } catch (error) {
+        console.log(error);
         console.log("Error in services/account/loginUser");
         return { error: error };
     }
@@ -50,6 +55,7 @@ export const getUser = async () => {
 
 export const registerUser = async (newUser: Account) => {
     try {
+        console.log("JSON USER =", JSON.stringify(newUser));
         const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/register`, {
             method: "POST",
             headers: {
@@ -58,7 +64,7 @@ export const registerUser = async (newUser: Account) => {
             body: JSON.stringify(newUser)
         })
         if (!res.ok) {
-            return { error: "Could not create account", reason: res.statusText };
+            return { error: "Could not create account", reason: res };
         }
         const data = res.json();
         return data;

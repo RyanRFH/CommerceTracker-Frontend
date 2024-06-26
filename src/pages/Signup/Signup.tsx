@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { registerUser } from '../../services/AccountServices';
+import { loginUser, registerUser } from '../../services/AccountServices';
 import { Account } from '../../Dtos/Accounts/RegisterAccountDto';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
@@ -30,6 +30,19 @@ const Signup = () => {
         };
 
         const response = await registerUser(user);
+        if (response.error) {
+            setErrorMessage(response.error);
+            return;
+        }
+
+        let loginRes: any = await loginUser(userName, password);
+
+        if (loginRes?.error) {
+            setErrorMessage("Sign up succeeded, login failed");
+            return;
+        }
+        window.location.href = `/`;
+
         console.log(response);
 
     };
@@ -61,10 +74,10 @@ const Signup = () => {
                                     Role
 
                                 </label>
-                                {/* SELECT NOT SETTING THE ROLE USESTATE */}
-                                <select defaultValue="user" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5">
-                                    <option value="user">User</option>
-                                    <option value="admin">Admin</option>
+
+                                <select onChange={(e) => setRole(e.target.value)} defaultValue="user" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5">
+                                    <option value="User">User</option>
+                                    <option value="Admin">Admin</option>
                                 </select>
                             </div>
                             <div>
