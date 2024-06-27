@@ -107,7 +107,7 @@ const NavBar = () => {
                                     <img className='mr-[5px] w-[40px] hidden md:block' alt='usericon' src='https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg' />
                                     <p className='md:mr-[30px]'>{userDetails.userName}</p>
                                 </button>
-                                <div ref={modal} className={`${isUserModalOpen ? "flex" : "hidden"} ] absolute right-[10px]`}>
+                                <div ref={modal} className={`${isUserModalOpen ? "flex" : "hidden"} ] absolute right-[10px] top-[30px] md:right-[100px] md:top-[50px]`}>
                                     <div className="z-10 mt-2 w-48 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
                                         <button onClick={profileSubmitHandler} className="block w-full hover:bg-gray-100 px-4 py-2 text-sm text-gray-700" role="menuitem" id="user-menu-item-2">Profile</button>
                                         {/* <p>Settings</p> */}
