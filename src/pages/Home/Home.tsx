@@ -52,23 +52,30 @@ const Home = () => {
                 <div className='flex flex-col w-3/4 mt-[30px] bg-neutral-200 px-[20px] py-[10px] rounded-2xl shadow-2xl'>
                     <h1 className='text-2xl'>Today's Deals</h1>
                     <div className='flex justify-evenly flex-col items-center md:flex-row text-center'>
-                        <div className='flex flex-col items-center max-w-[200px]'>
-                            <img alt='advert 1' src='https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/1.png' width="200px" />
-                            <p>Annibale Colombo Bed</p>
-                            <p className='text-green-500 text-2xl'>10% OFF</p>
-                        </div>
+                        <a href='/products?name=Annibale Colombo Bed'>
+                            <div className='flex flex-col items-center max-w-[200px]'>
+                                <img alt='advert 1' src='https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/1.png' width="200px" />
+                                <p>Annibale Colombo Bed</p>
+                                <p className='text-green-500 text-2xl'>10% OFF</p>
+                            </div>
+                        </a>
 
-                        <div className='flex flex-col items-center max-w-[200px]'>
-                            <img alt='advert 2' src='https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/1.png' width="200px" />
-                            <p>Chanel Coco Noir Eau De</p>
-                            <p className='text-green-500 text-2xl'>5% OFF</p>
-                        </div>
+                        <a href='/products?name=Chanel Coco Noir Eau De'>
+                            <div className='flex flex-col items-center max-w-[200px]'>
+                                <img alt='advert 2' src='https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/1.png' width="200px" />
+                                <p>Chanel Coco Noir Eau De</p>
+                                <p className='text-green-500 text-2xl'>5% OFF</p>
+                            </div>
+                        </a>
 
-                        <div className='flex flex-col items-center max-w-[200px]'>
-                            <img alt='advert 3' src='https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/1.png' className='w-[200px]' />
-                            <p>Knoll Saarinen Executive Conference Chair</p>
-                            <p className='text-green-500 text-2xl'>15% OFF</p>
-                        </div>
+
+                        <a href='/products?name=Knoll Saarinen Executive Conference Chair'>
+                            <div className='flex flex-col items-center max-w-[200px]'>
+                                <img alt='advert 3' src='https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/1.png' className='w-[200px]' />
+                                <p>Knoll Saarinen Executive Conference Chair</p>
+                                <p className='text-green-500 text-2xl'>15% OFF</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
