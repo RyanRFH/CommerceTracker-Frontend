@@ -43,7 +43,7 @@ const Signup = () => {
         }
         window.location.href = `/`;
 
-        console.log(response);
+        // console.log(response);
 
     };
 

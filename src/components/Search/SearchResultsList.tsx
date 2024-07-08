@@ -43,7 +43,7 @@ const SearchResultsList = (props: any) => {
             setUserDetails(user);
         }
     }
-    console.log(userDetails);
+    // console.log(userDetails);
 
     const [productAddedMessage, setProductAddedMessage] = useState(`Item added to basket`);
     const [productAdded, setProductAdded] = useState("");
