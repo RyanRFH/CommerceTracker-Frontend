@@ -11,7 +11,7 @@ export const loginUser = async (username: string, password: string) => {
                 password: password
             })
         });
-        console.log("res = ", response);
+
         if (response.ok === false) {
             throw new Error("Response.ok was false");
         }
@@ -55,7 +55,7 @@ export const getUser = async () => {
 
 export const registerUser = async (newUser: Account) => {
     try {
-        console.log("JSON USER =", JSON.stringify(newUser));
+
         const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/register`, {
             method: "POST",
             headers: {

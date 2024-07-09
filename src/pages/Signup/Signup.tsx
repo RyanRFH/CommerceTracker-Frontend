@@ -21,7 +21,7 @@ const Signup = () => {
             setErrorMessage("Passwords do not match");
             return;
         }
-        console.log("role = ", role);
+
         const user: Account = {
             username: userName,
             email: email,
@@ -42,8 +42,6 @@ const Signup = () => {
             return;
         }
         window.location.href = `/`;
-
-        // console.log(response);
 
     };
 

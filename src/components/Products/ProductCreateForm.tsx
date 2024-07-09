@@ -28,7 +28,6 @@ const ProductCreateForm = (props: any) => {
         }
 
         const res = await CreateProduct(product);
-        console.log(res)
 
         if (res.errors) {
             console.log("Error: ", res.errors);

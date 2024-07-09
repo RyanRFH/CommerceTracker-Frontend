@@ -1,73 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { deleteCookie, getCookie } from '../../common/Cookies/cookies';
 import { GetProductList } from '../../services/ProductServices';
 import BasketResults from '../../components/Basket/BasketResults';
-import { removeFromBasket } from '../../services/BasketService';
+import { GetBasket, RemoveFromBasket } from '../../services/BasketService';
 import { Button } from '@mui/joy';
 
 const Basket = () => {
 
     const [productsList, setProductsList] = useState(Array<Object>);
     const [totalPrice, setTotalPrice] = useState(Number);
-
     const [errorMessage, setErrorMessage] = useState("");
 
-    const onClickRemoveFromBasketHandler = (productid: string) => {
-        removeFromBasket(productid);
-        getProduct();
+    const onClickRemoveFromBasketHandler = async (baketItemId: string) => {
+        await RemoveFromBasket(baketItemId);
+        retrieveBasket();
+        calculatedTotalPrice();
+
     };
 
     useEffect(() => {
-        getProduct();
+        retrieveBasket();
+        calculatedTotalPrice();
     }, []);
 
+    const retrieveBasket = async () => {
+        const newBasket = await GetBasket();
 
-    const getProduct = async () => {
-
-        const cookiesString = getCookie("basket");
-
-        if (typeof cookiesString !== "string") {
-            console.log("Cookie not found");
-            setProductsList([]);
-            setTotalPrice(0);
-            return "Error in cookies";
+        if (newBasket?.error === true) {
+            console.log("Basket not found");
+            return;
         }
+        setProductsList(newBasket.message.basketItems.$values);
 
-        if (cookiesString.length === 0) {
-            setProductsList([]);
-            setTotalPrice(0);
-            return { error: "No cookies found" };
-        }
-
-        try {
-            const products = await GetProductList("productid", cookiesString);
-
-            console.log("products = ", products);
-
-            if (products.error) {
-                console.log("Product not found");
-                setErrorMessage("Invalid basket, please add items again");
-                deleteCookie("basket");
-                return { error: products.error };
-            };
-
-            setProductsList(products.$values);
-            let totalPriceTemp = 0;
-            products.$values?.map((product: any, index: any) => {
-                totalPriceTemp += product.price;
-
-            });
-            setTotalPrice(totalPriceTemp);
-            return true;
-
-        } catch (error) {
-            console.log(error);
-            return { error: error };
-        };
     };
 
-
-    console.log(productsList);
+    const calculatedTotalPrice = () => {
+        let tempTotalPrice = 0;
+        productsList.map((product: any, index: number) => {
+            tempTotalPrice += product?.product.price;
+        })
+        console.log(productsList);
+        setTotalPrice(tempTotalPrice);
+    };
 
     return (
         <div>

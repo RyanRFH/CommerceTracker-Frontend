@@ -3,7 +3,7 @@ import { createProducts } from '../../Testing/ProductsTesting';
 import { useLocation } from 'react-router-dom';
 import ProductCreateForm from '../Products/ProductCreateForm';
 import { Button, Tooltip } from '@mui/joy';
-import { addToBasket } from '../../services/BasketService';
+import { AddToBasket } from '../../services/BasketService';
 import { getUser } from '../../services/AccountServices';
 // import { getCookie } from '../../common/Cookies/cookies';
 
@@ -43,35 +43,22 @@ const SearchResultsList = (props: any) => {
             setUserDetails(user);
         }
     }
-    // console.log(userDetails);
 
     const [productAddedMessage, setProductAddedMessage] = useState(`Item added to basket`);
     const [productAdded, setProductAdded] = useState("");
     let [productAddedMessageState, setProductAddedMessageState] = useState("hidden"); //fixed or hidden
+    const [addProductButtonState, setAddProductButtonState] = useState(true);
 
-    const addItemToBasketClickHandler = (productId: string, productName: string) => {
-        // let basketCookie = getCookie("basket");
-        // if (basketCookie) {
-        //     console.log(basketCookie.length)
-        //     if (basketCookie.length > 72) {
-        //         setproductAddedMessage("Basket limit reached (5 products)");
-        //         return;
-        //     }
-        // }
-        // console.log(basketCookie);
-        let response = addToBasket(productId);
+    const addItemToBasketClickHandler = async (productId: string, productName: string) => {
+        setAddProductButtonState(false);
+        let response = await AddToBasket(productId);
 
-        if (response.success === false) {
-            if (response.reason) {
-                setProductAdded(`${productName}`);
-                setProductAddedMessage(`${response.reason}`);
-                setProductAddedMessageState("fixed");
-                return;
-            }
-        }
         setProductAdded(`${productName}`);
         setProductAddedMessage(`added to basket`);
         setProductAddedMessageState("fixed");
+
+        setAddProductButtonState(true);
+
     };
 
     const nextPageSubmitHandler = () => {
@@ -219,7 +206,13 @@ const SearchResultsList = (props: any) => {
                                                             {(((Date.now() - Date.parse(product.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
                                                         </span>
                                                     </span>
-                                                    <Button onClick={() => addItemToBasketClickHandler(product.productId, product.name)} className=''>Add to basket</Button>
+                                                    {addProductButtonState
+                                                        ?
+                                                        <Button onClick={() => addItemToBasketClickHandler(product.productId, product.name)} className="">Add to basket</Button>
+                                                        :
+                                                        <Button disabled className="">Add to basket</Button>
+                                                    }
+
                                                 </td>
                                             </tr>
                                         )

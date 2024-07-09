@@ -53,7 +53,7 @@ export const CreateProduct = async (product: Product) => {
             },
             body: JSON.stringify(product),
         });
-        console.log("new res = ", res)
+
         if (res.ok === false) {
             return { error: `Fetch failed`, reason: res.statusText };
         }

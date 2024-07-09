@@ -1,14 +1,9 @@
 import { Button } from '@mui/joy';
 import React, { useEffect, useState } from 'react';
-import { removeFromBasket } from '../../services/BasketService';
+import { GetBasket, RemoveFromBasket } from '../../services/BasketService';
 
 const BasketResults = (props: any) => {
 
-    // const [productBasket, setProductBasket] = useState();
-
-    // useEffect(() => {
-
-    // }, [productBasket]);
 
     const onClickRemoveFromBasketHandler = (productid: string) => {
         props.updateBasketCallback(productid);
@@ -22,7 +17,7 @@ const BasketResults = (props: any) => {
                         <h2 className="text-gray-600 font-semibold text-2xl ml-[50px]">Basket</h2>
                     </div>
                     <div className='flex items-center justify-center'>
-                        {!props?.productsList[0]?.name && <p className='text-3xl mt-[30px]'>No items in basket</p>}
+                        {props?.productsList.length === 0 && <p className='text-3xl mt-[30px]'>No items in basket</p>}
                     </div>
 
                     <div className="px-4 sm:px-8 py-4 overflow-x-auto h-full">
@@ -40,24 +35,24 @@ const BasketResults = (props: any) => {
                                     </tr>
                                 </thead>
                                 <tbody className='flex flex-col items-center h-full'>
-                                    {props?.productsList[0]?.name && props.productsList.map((product: any, index: number) => {
+                                    {props?.productsList.length !== 0 && props.productsList.map((product: any, index: number) => {
                                         return (
                                             <tr className='flex flex-col md:flex-row md:w-[80%] items-center border-b h-full' key={index}>
                                                 <td className="border-gray-200 bg-white text-sm leading-8 w-full md:w-1/2 h-full flex items-center justify-center">
                                                     <div className="flex flex-col items-center w-full">
                                                         <div className="">
                                                             <img className="max-w-[200px] md:max-w-[200px] max-h-[200px] md:max-h-[200px]"
-                                                                src={product.imageUrl}
+                                                                src={product.product.imageUrl}
                                                                 alt="product"
                                                             />
                                                         </div>
                                                         <div className="md:ml-3 w-full mb-[50px]">
                                                             <div className="flex items-center flex-col text-gray-900 whitespace-no-wrap">
                                                                 <p className='text-[15px] md:text-[30px]'>
-                                                                    {product.name}
+                                                                    {product.product.name}
                                                                 </p>
                                                                 <p className='text-[10px] md:text-[20px] text-slate-400 md:mt-[10px]'>
-                                                                    {product.productId}
+                                                                    {product.product.productId}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -66,24 +61,24 @@ const BasketResults = (props: any) => {
                                                 </td>
                                                 <td className="flex flex-col items-center md:w-1/2 text-center border-gray-200 bg-white mb-[10px] mx-[10px]">
                                                     <p className="text-gray-600 whitespace-no-wrap">
-                                                        {product.description}
+                                                        {product.product.description}
                                                     </p>
 
                                                     <p className="text-gray-900 whitespace-no-wrap mb-[10px]">
-                                                        Quantity: {product.quantity}
+                                                        Quantity: {product.product.quantity}
                                                     </p>
                                                     <p className="text-gray-900 whitespace-no-wrap mb-[10px]">
-                                                        £{product.price}
+                                                        £{product.product.price}
                                                     </p>
                                                     <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight z-[0] mb-[20px]">
                                                         <span aria-hidden
                                                             className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
                                                         </span>
                                                         <span className="relative">
-                                                            {(((Date.now() - Date.parse(product.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
+                                                            {(((Date.now() - Date.parse(product.product.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
                                                         </span>
                                                     </span>
-                                                    <Button onClick={() => onClickRemoveFromBasketHandler(product.productId)} className=''>Remove from basket</Button>
+                                                    <Button onClick={() => onClickRemoveFromBasketHandler(product.basketItemId)} className=''>Remove from basket</Button>
 
                                                 </td>
                                                 <td>
@@ -94,7 +89,7 @@ const BasketResults = (props: any) => {
                                                             <button data-action="decrement" className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
                                                                 <span className="m-auto text-2xl font-thin">−</span>
                                                             </button>
-                                                            <input className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none" name="custom-input-number" defaultValue="0"></input>
+                                                            <input className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700" name="custom-input-number" defaultValue="0"></input>
                                                             <button data-action="increment" className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
                                                                 <span className="m-auto text-2xl font-thin">+</span>
                                                             </button>
