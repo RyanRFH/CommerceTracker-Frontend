@@ -75,3 +75,23 @@ export const GetBasket = async () => {
 
 
 };
+
+export const UpdateBasketItemQuantity = async (basketItemId: string, quantity: number) => {
+    try {
+        const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/basket/basketitem/updatequantity?basketItemId=${basketItemId}&quantity=${quantity}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (res.ok === false) {
+            return { error: `Fetch failed`, message: res.statusText };
+        }
+        const data = await res.json();
+        return { success: true, message: data };
+    } catch (error) {
+        console.log("Error in services/basket/UpdateBasketItemQuantity");
+        return { error: error, message: "An error occurred" };
+    }
+};

@@ -1,17 +1,44 @@
 import { Button } from '@mui/joy';
 import React, { useEffect, useState } from 'react';
-import { GetBasket, RemoveFromBasket } from '../../services/BasketService';
 
 const BasketResults = (props: any) => {
 
+    enum pageStates {
+        loading = "loading",
+        updating = "updating",
+        ready = "ready"
+    }
+
+    console.log(props.productsList)
+    // const pageState = props.pageState;
+    const [pageState, setPageState] = useState(props.pageState);
+    console.log("pagestate = ", pageState);
 
     const onClickRemoveFromBasketHandler = (productid: string) => {
         props.updateBasketCallback(productid);
     };
 
+    const onClickDecreaseBasketItemQuantity = async (basketItemId: string, currentQuantity: number) => {
+        if (currentQuantity < 1) {
+            return;
+        }
+        await props.decreaseBasketItemQuantityCallback(basketItemId, currentQuantity);
+    };
+
+    const onClickIncreaseBasketItemQuantity = (basketItemId: string, currentQuantity: number, productMaxQuantity: number) => {
+        if (currentQuantity + 1 > productMaxQuantity) {
+            return;
+        }
+        props.increaseBasketItemQuantityCallback(basketItemId, currentQuantity);
+    };
+
+    useEffect(() => {
+        setPageState(props.pageState);
+    }, [props]);
+
     return (
-        <div className='flex flex-col flex-wrap items-center h-full mt-[30px]'>
-            <div className="flex flex-col items-center bg-white p-2 rounded-md w-full h-full">
+        <div className='flex flex-col flex-wrap h-full mt-[30px]'>
+            <div className="flex flex-col bg-white p-2 rounded-md w-full h-full">
                 <div className='h-full w-full'>
                     <div>
                         <h2 className="text-gray-600 font-semibold text-2xl ml-[50px]">Basket</h2>
@@ -34,7 +61,7 @@ const BasketResults = (props: any) => {
                                         <th className="pl-1">Date Added</th>
                                     </tr>
                                 </thead>
-                                <tbody className='flex flex-col items-center h-full'>
+                                <tbody className='flex flex-col h-full'>
                                     {props?.productsList.length !== 0 && props.productsList.map((product: any, index: number) => {
                                         return (
                                             <tr className='flex flex-col md:flex-row md:w-[80%] items-center border-b h-full' key={index}>
@@ -78,7 +105,13 @@ const BasketResults = (props: any) => {
                                                             {(((Date.now() - Date.parse(product.product.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
                                                         </span>
                                                     </span>
-                                                    <Button onClick={() => onClickRemoveFromBasketHandler(product.basketItemId)} className=''>Remove from basket</Button>
+                                                    {pageState === pageStates.ready
+                                                        ?
+                                                        <Button onClick={() => onClickRemoveFromBasketHandler(product.basketItemId)} className=''>Remove from basket</Button>
+                                                        :
+                                                        <Button disabled className=''>Remove from basket</Button>
+                                                    }
+
 
                                                 </td>
                                                 <td>
@@ -86,18 +119,41 @@ const BasketResults = (props: any) => {
                                                         <label className="w-full text-gray-700 text-sm font-semibold">Quantity
                                                         </label>
                                                         <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-                                                            <button data-action="decrement" className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
-                                                                <span className="m-auto text-2xl font-thin">−</span>
-                                                            </button>
-                                                            <input className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700" name="custom-input-number" defaultValue="0"></input>
-                                                            <button data-action="increment" className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
-                                                                <span className="m-auto text-2xl font-thin">+</span>
-                                                            </button>
+
+                                                            {pageState === pageStates.ready
+                                                                ?
+                                                                <div>
+                                                                    < button onClick={() => onClickDecreaseBasketItemQuantity(product.basketItemId, product.quantity)} data-action="decrement" className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l">
+                                                                        <span className="m-auto text-2xl font-thin">-</span>
+                                                                    </button>
+                                                                </div>
+                                                                :
+                                                                <div>
+                                                                    < button disabled data-action="decrement" className="opacity-50 bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l">
+                                                                        <span className="m-auto text-2xl font-thin">-</span>
+                                                                    </button>
+                                                                </div>
+                                                            }
+                                                            <div className={`flex items-center justify-center ${pageState === pageStates.updating && "opacity-50"} outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default text-gray-700`}>{product.quantity}</div>
+                                                            {pageState === pageStates.ready
+                                                                ?
+                                                                <div>
+                                                                    < button onClick={() => onClickIncreaseBasketItemQuantity(product.basketItemId, product.quantity, product.product.quantity)} data-action="increment" className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r">
+                                                                        <span className="m-auto text-2xl font-thin">+</span>
+                                                                    </button>
+                                                                </div>
+                                                                :
+                                                                <div>
+                                                                    < button disabled data-action="increment" className="opacity-50 bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r">
+                                                                        <span className="m-auto text-2xl font-thin">+</span>
+                                                                    </button>
+                                                                </div>
+                                                            }
+
                                                         </div>
                                                     </div>
                                                 </td>
                                             </tr>
-
                                         )
                                     })}
                                 </tbody>
@@ -106,7 +162,7 @@ const BasketResults = (props: any) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

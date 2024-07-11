@@ -114,7 +114,8 @@ const NavBar = () => {
                                         <button onClick={logoutSubmitHandler} className="block w-full hover:bg-gray-100 px-4 py-2 text-sm text-gray-700" role="menuitem" id="user-menu-item-2">Sign out</button>
                                     </div>
                                 </div>
-                                <div className={`flex items-center bg-green-400 rounded-3xl px-[12px] md:px-[20px] mx-[5px] md:mx-[20px] text-xs md:text-sm font-bold h-[40px]`}>
+
+                                <div className={`flex items-center ${userDetails?.role === "Admin" ? "bg-green-400" : "bg-yellow-400"} rounded-3xl px-[12px] md:px-[20px] mx-[5px] md:mx-[20px] text-xs md:text-sm font-bold h-[40px]`}>
                                     <p>{userDetails?.role.toUpperCase()}</p>
                                 </div>
 
