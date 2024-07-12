@@ -36,7 +36,9 @@ const SearchResultsList = (props: any) => {
 
     const getUserDetails = async () => {
         const user = await getUser();
+
         if (user.error) {
+            setUserDetails(null);
             return;
         }
         if (user) {
@@ -84,8 +86,6 @@ const SearchResultsList = (props: any) => {
         setIsModalOpen(false);
     };
 
-
-
     //Close create product modal if user clicks anywhere on window
     let modal: RefObject<HTMLDivElement> = useRef(null);
     const handleOutsideClick = (e: MouseEvent) => {
@@ -118,7 +118,7 @@ const SearchResultsList = (props: any) => {
                         <h2 className="text-gray-600 font-semibold">{searchType.charAt(0).toUpperCase() + searchType.slice(1)}</h2>
                     </div>
                     <div className="flex items-center justify-between">
-                        {userDetails.role === "Admin" ?
+                        {userDetails?.role === "Admin" ?
                             <div className="lg:ml-40 ml-10 space-x-8 relative">
                                 <button onClick={() => setIsModalOpen(!isModalOpen)} className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700">
                                     Create
@@ -206,11 +206,17 @@ const SearchResultsList = (props: any) => {
                                                             {(((Date.now() - Date.parse(product.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
                                                         </span>
                                                     </span>
-                                                    {addProductButtonState
+                                                    {!addProductButtonState || !userDetails?.role
                                                         ?
-                                                        <Button onClick={() => addItemToBasketClickHandler(product.productId, product.name)} className="">Add to basket</Button>
+                                                        <Tooltip title="Requires login" arrow>
+                                                            <div>
+                                                                <Button disabled className="pointer-events-none">Add to basket</Button>
+                                                            </div>
+
+                                                        </Tooltip>
+
                                                         :
-                                                        <Button disabled className="">Add to basket</Button>
+                                                        <Button onClick={() => addItemToBasketClickHandler(product.productId, product.name)} className="">Add to basket</Button>
                                                     }
 
                                                 </td>

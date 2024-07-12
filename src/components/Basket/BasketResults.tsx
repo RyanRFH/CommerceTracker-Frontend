@@ -9,10 +9,8 @@ const BasketResults = (props: any) => {
         ready = "ready"
     }
 
-    console.log(props.productsList)
     // const pageState = props.pageState;
     const [pageState, setPageState] = useState(props.pageState);
-    console.log("pagestate = ", pageState);
 
     const onClickRemoveFromBasketHandler = (productid: string) => {
         props.updateBasketCallback(productid);
@@ -120,31 +118,35 @@ const BasketResults = (props: any) => {
                                                         </label>
                                                         <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
 
-                                                            {pageState === pageStates.ready
+                                                            {pageState !== pageStates.ready || product.quantity < 1
                                                                 ?
-                                                                <div>
-                                                                    < button onClick={() => onClickDecreaseBasketItemQuantity(product.basketItemId, product.quantity)} data-action="decrement" className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l">
-                                                                        <span className="m-auto text-2xl font-thin">-</span>
-                                                                    </button>
-                                                                </div>
-                                                                :
                                                                 <div>
                                                                     < button disabled data-action="decrement" className="opacity-50 bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l">
                                                                         <span className="m-auto text-2xl font-thin">-</span>
                                                                     </button>
                                                                 </div>
-                                                            }
-                                                            <div className={`flex items-center justify-center ${pageState === pageStates.updating && "opacity-50"} outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default text-gray-700`}>{product.quantity}</div>
-                                                            {pageState === pageStates.ready
-                                                                ?
+                                                                :
                                                                 <div>
-                                                                    < button onClick={() => onClickIncreaseBasketItemQuantity(product.basketItemId, product.quantity, product.product.quantity)} data-action="increment" className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r">
+                                                                    < button onClick={() => onClickDecreaseBasketItemQuantity(product.basketItemId, product.quantity)} data-action="decrement" className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l">
+                                                                        <span className="m-auto text-2xl font-thin">-</span>
+                                                                    </button>
+                                                                </div>
+                                                            }
+
+                                                            <div className={`flex px-[10px] items-center justify-center ${pageState === pageStates.updating && "opacity-50"} outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default text-gray-700`}>{product.quantity}</div>
+
+                                                            {pageState !== pageStates.ready || product.quantity >= product.product.quantity
+                                                                ?
+
+                                                                <div>
+                                                                    < button disabled data-action="increment" className="opacity-50 bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r">
                                                                         <span className="m-auto text-2xl font-thin">+</span>
                                                                     </button>
                                                                 </div>
                                                                 :
+
                                                                 <div>
-                                                                    < button disabled data-action="increment" className="opacity-50 bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r">
+                                                                    < button onClick={() => onClickIncreaseBasketItemQuantity(product.basketItemId, product.quantity, product.product.quantity)} data-action="increment" className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r">
                                                                         <span className="m-auto text-2xl font-thin">+</span>
                                                                     </button>
                                                                 </div>

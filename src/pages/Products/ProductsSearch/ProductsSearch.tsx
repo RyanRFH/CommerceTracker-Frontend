@@ -6,8 +6,7 @@ import { GetProductQuery } from "../../../services/ProductServices";
 
 const ProductsSearch = () => {
 
-    let date = new Date();
-    console.log(date);
+    console.log("Products Page Working");
 
     const [searchResults, setSearchResults] = useState();
     const getProductsByQuery = async () => {

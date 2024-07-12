@@ -95,3 +95,30 @@ export const UpdateBasketItemQuantity = async (basketItemId: string, quantity: n
         return { error: error, message: "An error occurred" };
     }
 };
+
+export const ClearBasket = async () => {
+    const user = await getUser();
+    if (!user) {
+        return { error: `User not found`, message: "User not found" };
+    }
+
+    try {
+        const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/basket/clearbasket?userId=${user.id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (res.ok === false) {
+            return { error: `Fetch failed`, message: res.statusText };
+        }
+        // const data = await res.json();
+        return { success: true, message: res };
+    } catch (error) {
+        console.log("Error in services/basket/ClearBasket = ", error);
+        return { error: error, message: "An error occurred" };
+    }
+
+
+};

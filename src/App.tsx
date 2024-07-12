@@ -8,6 +8,8 @@ import NavBar from './components/NavBar/NavBar';
 import Footer from './components/Footer/Footer';
 import Signup from './pages/Signup/Signup';
 import Basket from './pages/Basket/Basket';
+import Orders from './pages/Orders/Orders';
+import OrderDetails from './pages/Orders/OrderDetails';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path='products' element={<ProductsSearch />} />
           <Route path='signup' element={<Signup />} />
           <Route path='basket' element={<Basket />} />
+          <Route path='orders' element={<Orders />} />
+          <Route path='orders/details' element={<OrderDetails />} />
         </Routes>
       </BrowserRouter>
       <Footer />

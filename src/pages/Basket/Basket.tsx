@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import BasketResults from '../../components/Basket/BasketResults';
-import { GetBasket, RemoveFromBasket, UpdateBasketItemQuantity } from '../../services/BasketService';
+import { ClearBasket, GetBasket, RemoveFromBasket, UpdateBasketItemQuantity } from '../../services/BasketService';
 import { Button } from '@mui/joy';
+import { CreateOrderFromBasket } from '../../services/OrderServices';
 
 const Basket = () => {
+
+    console.log("Basket Working")
 
     enum pageStates {
         loading = "loading",
@@ -74,16 +77,48 @@ const Basket = () => {
         setTotalPrice(tempTotalPrice);
     };
 
+    const clearBasket = async () => {
+        setPageState(pageStates.updating);
+        await ClearBasket();
+        await retrieveBasket();
+        setPageState(pageStates.ready);
+    };
+
+    const createOrderFromBasket = async () => {
+        setPageState(pageStates.updating);
+        await CreateOrderFromBasket();
+        await ClearBasket();
+        await retrieveBasket();
+        setPageState(pageStates.ready);
+    };
+
     return (
         <div>
             <div>
-                <div className='fixed text-sm right-0 bg-neutral-200 w-[250px] h-[200px] z-[100] mr-[10px] rounded-2xl pb-[30px]'>
-                    <div className='items-center justify-center ml-[20px] mt-[20px] h-[50%]'>
+                <div className='fixed text-sm right-0 bg-neutral-200 w-[250px] h-[300px] z-[100] mr-[10px] rounded-2xl pb-[30px]'>
+                    <div className='items-center justify-center ml-[20px] mt-[20px] h-[30%] text-xl'>
                         <p>{`Items: ${productsList?.length}`} </p>
                         <p>{`Total Price: £${totalPrice.toFixed(2)}`} </p>
                     </div>
                     <div className='mt-[30px] flex flex-col items-center justify-end'>
-                        <Button className='h-auto'>Create Order</Button>
+                        {pageState !== pageStates.ready || productsList?.length === 0
+                            ?
+                            <Button disabled className=''>Create Order</Button>
+                            :
+                            <Button onClick={createOrderFromBasket} className=''>Create Order</Button>
+                        }
+
+                    </div>
+
+                    <div className='mt-[30px] flex flex-col items-center justify-end'>
+                        {pageState !== pageStates.ready || productsList?.length === 0
+                            ?
+                            <Button disabled color="danger" className=''>Empty Basket</Button>
+                            :
+                            <Button onClick={clearBasket} color="danger" className=''>Empty Basket</Button>
+
+                        }
+
                     </div>
                 </div>
 
