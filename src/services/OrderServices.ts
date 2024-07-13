@@ -68,9 +68,33 @@ export const GetOrdersByQuery = async (query: Array<string>) => {
         const data = await res.json();
         return { success: true, message: data };
     } catch (error) {
-        console.log("Error in services/basket/GetOrdersByQuery");
+        console.log("Error in services/order/GetOrdersByQuery");
         return { error: error, message: "An error occurred" };
     }
 
 
+};
+
+export const DeleteOrder = async (orderId: string) => {
+    const userJWt = getCookie("login-jwt");
+
+    try {
+        const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/order`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userJWt}`
+            },
+            body: JSON.stringify(orderId)
+        });
+
+        if (res.ok === false) {
+            return { error: `Fetch failed`, message: res.statusText };
+        }
+        const data = await res.json();
+        return { success: true, message: data };
+    } catch (error) {
+        console.log("Error in services/order/DeleteOrder");
+        return { error: error, message: "An error occurred" };
+    }
 };
