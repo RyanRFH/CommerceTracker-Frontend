@@ -23,9 +23,10 @@ const OrderResults = (props: any) => {
         window.location.href = `${process.env.REACT_APP_LOCAL_URL}/orders/details?orderId=${orderId}`;
     };
 
+    console.log("list = ", props?.listOrder)
     return (
         <div className='flex items-center justify-center'>
-            <table className="w-[90%] leading-normal h-full">
+            {props.orderList?.length > 0 && <table className="w-[90%] leading-normal h-full">
                 <thead>
                     <tr className='h-14 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b-2'>
                         <th className="pl-1">User ID</th>
@@ -76,7 +77,8 @@ const OrderResults = (props: any) => {
 
                     })}
                 </tbody>
-            </table>
+            </table>}
+
         </div>
     );
 };

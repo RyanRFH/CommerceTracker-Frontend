@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import OrderDetailsList from '../../components/Orders/OrderDetailsList';
 import { DeleteOrder, GetOrdersByQuery } from '../../services/OrderServices';
+import { getUser } from '../../services/AccountServices';
 
 const OrderDetails = () => {
     console.log("Order Details Page Working");
@@ -33,12 +34,26 @@ const OrderDetails = () => {
             setErrorMessage("OrderId not found in URL params");
         }
 
+        let user = await getUser();
+
+        if (user.error) {
+            setErrorMessage("Error: User not found");
+            return;
+        }
+
         let res = await GetOrdersByQuery(queryArray);
         if (res.error || res.success !== true) {
             setErrorMessage("Error retrieving orders");
             console.log("Error retrieving orders");
             return;
         };
+
+        console.log("res ===", res);
+        console.log(user.id);
+        if (res.message.$values[0].userId !== user.id) {
+            setErrorMessage("Unauthorized to view this order");
+            return;
+        }
 
         if (res) {
             setOrderData(res);
@@ -52,8 +67,9 @@ const OrderDetails = () => {
 
     return (
         <div>
-            <p>{errorMessage}</p>
-            <OrderDetailsList deleteOrderCallBack={deleteOrder} orderData={orderData.message?.$values[0]} />
+            {!errorMessage && <OrderDetailsList deleteOrderCallBack={deleteOrder} orderData={orderData.message?.$values[0]} />}
+            <p className='flex items-center justify-center my-[30px] text-3xl'>{errorMessage}</p>
+
         </div>
     );
 };
