@@ -12,10 +12,14 @@ const OrderDetails = () => {
     const [user, setUser] = useState(Object);
     let queryArray: Array<string>;
 
-
-    console.log("OD = ", orderData);
-
     const deleteOrder = async () => {
+        let user = await getUser();
+
+        if (user.error) {
+            setErrorMessage("Error: User not found");
+            return;
+        };
+
         let res = await DeleteOrder(orderData.message.$values[0].orderId);
 
         if (!res.success || res.error) {
@@ -42,14 +46,13 @@ const OrderDetails = () => {
         }
 
         let res = await GetOrdersByQuery(queryArray);
+
         if (res.error || res.success !== true) {
             setErrorMessage("Error retrieving orders");
             console.log("Error retrieving orders");
             return;
         };
 
-        console.log("res ===", res);
-        console.log(user.id);
         if (res.message.$values[0].userId !== user.id) {
             setErrorMessage("Unauthorized to view this order");
             return;

@@ -12,10 +12,11 @@ const Orders = () => {
     const [orders, setOrders] = useState(Array<any>);
     const [errorMessage, setErrorMessage] = useState("");
     const [notificationMessage, setNotificationMessage] = useState("");
+
     const getOrders = async () => {
 
         let user = await getUser();
-        console.log("user = ", user);
+
         if (user.error) {
             setErrorMessage("Please log in to see orders")
             return;
@@ -30,6 +31,11 @@ const Orders = () => {
                 console.log("Error retrieving orders");
                 return;
             };
+
+            if (res.message.$values.length < 1) {
+                setNotificationMessage("You have no orders");
+                return;
+            }
 
             if (res.message.$values) {
                 setOrders(res.message.$values);
@@ -49,6 +55,11 @@ const Orders = () => {
             return;
         };
 
+        if (res.message.$values.length < 1) {
+            setNotificationMessage("There are no orders");
+            return;
+        };
+
         if (res.message.$values) {
             setOrders(res.message.$values);
             setNotificationMessage("Viewing All Orders");
@@ -58,7 +69,7 @@ const Orders = () => {
 
     };
 
-    console.log("orders = ", orders);
+
     useEffect(() => {
         getOrders();
     }, [])

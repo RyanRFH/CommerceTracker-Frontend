@@ -4,7 +4,7 @@ const OrderResults = (props: any) => {
 
 
 
-    console.log(props.orderList);
+
 
     let totalPriceArray: Array<any> = [];
     const calculateTotalPrice = () => {
@@ -17,13 +17,12 @@ const OrderResults = (props: any) => {
         });
     };
     calculateTotalPrice();
-    console.log(totalPriceArray);
+
 
     const goToOrdersDetailsPage = (orderId: string) => {
         window.location.href = `${process.env.REACT_APP_LOCAL_URL}/orders/details?orderId=${orderId}`;
     };
 
-    console.log("list = ", props?.listOrder)
     return (
         <div className='flex items-center justify-center'>
             {props.orderList?.length > 0 && <table className="w-[90%] leading-normal h-full">

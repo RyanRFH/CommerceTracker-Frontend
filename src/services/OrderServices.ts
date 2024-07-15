@@ -78,6 +78,12 @@ export const GetOrdersByQuery = async (query: Array<string>) => {
 export const DeleteOrder = async (orderId: string) => {
     const userJWt = getCookie("login-jwt");
 
+    let user = await getUser();
+
+    if (user.error) {
+        return { success: false, message: "User not found" };
+    };
+
     try {
         const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/order`, {
             method: "DELETE",
@@ -86,6 +92,7 @@ export const DeleteOrder = async (orderId: string) => {
                 "Authorization": `Bearer ${userJWt}`
             },
             body: JSON.stringify(orderId)
+
         });
 
         if (res.ok === false) {

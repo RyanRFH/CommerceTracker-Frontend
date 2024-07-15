@@ -2,7 +2,7 @@ import { Button } from '@mui/joy';
 import React from 'react';
 
 const OrderDetailsList = (props: any) => {
-    console.log(props)
+
     return (
         <div>
 
