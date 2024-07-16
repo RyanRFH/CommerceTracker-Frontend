@@ -1,10 +1,11 @@
-import React from 'react';
-import logoBanner from '../../assets/etrack-logo-zip-file/png/logo-no-background.png'
-import bgImage from '../../assets/shopping-bag-cart.jpg'
+// import React from 'react';
+// import logoBanner from '../../assets/etrack-logo-zip-file/png/logo-no-background.png'
+// import bgImage from '../../assets/shopping-bag-cart.jpg'
 import SearchBarAlone from '../../components/Search/SearchBarAlone';
 import bgImageLong from '../../assets/shopping-cart-with-bag.jpg'
 
 const Home = () => {
+    console.log("Home Page Working");
     return (
         <div className='bg-slate-100 min-h-screen'>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BasketResults from '../../components/Basket/BasketResults';
 import { ClearBasket, GetBasket, RemoveFromBasket, UpdateBasketItemQuantity } from '../../services/BasketService';
 import { Button } from '@mui/joy';
@@ -6,7 +6,7 @@ import { CreateOrderFromBasket } from '../../services/OrderServices';
 
 const Basket = () => {
 
-    console.log("Basket Working")
+    console.log("Basket Page Working")
 
     enum pageStates {
         loading = "loading",

@@ -6,6 +6,8 @@ import { loginUser } from '../../services/AccountServices';
 
 const Login = () => {
 
+    console.log("Login Page Working");
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");

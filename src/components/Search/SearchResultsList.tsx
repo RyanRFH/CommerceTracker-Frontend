@@ -1,6 +1,4 @@
-import React, { LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
-import { createProducts } from '../../Testing/ProductsTesting';
-import { useLocation } from 'react-router-dom';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 import ProductCreateForm from '../Products/ProductCreateForm';
 import { Button, Tooltip } from '@mui/joy';
 import { AddToBasket } from '../../services/BasketService';
@@ -36,6 +34,7 @@ const SearchResultsList = (props: any) => {
 
     const getUserDetails = async () => {
         const user = await getUser();
+        console.log(user);
 
         if (user.error) {
             setUserDetails(null);
@@ -212,7 +211,6 @@ const SearchResultsList = (props: any) => {
                                                             <div>
                                                                 <Button disabled className="pointer-events-none">Add to basket</Button>
                                                             </div>
-
                                                         </Tooltip>
 
                                                         :

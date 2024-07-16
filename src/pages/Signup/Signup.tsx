@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { loginUser, registerUser } from '../../services/AccountServices';
 import { Account } from '../../Dtos/Accounts/RegisterAccountDto';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
 
 const Signup = () => {
+
+    console.log("Signup Page Working");
 
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
@@ -97,9 +97,7 @@ const Signup = () => {
                                 <div className="ml-3 text-sm">
                                     <label className="font-light text-gray-500">
                                         I accept the
-                                        <a href="#" className="font-medium text-primary-600 hover:underline text-primary-500">
-                                            <p>Terms and Conditions</p>
-                                        </a>
+                                        <p className="font-medium text-primary-600 hover:underline text-primary-500 cursor-pointer">Terms and Conditions</p>
                                     </label>
                                 </div>
                             </div>
