@@ -20,7 +20,7 @@ const OrderResults = (props: any) => {
 
 
     const goToOrdersDetailsPage = (orderId: string) => {
-        window.location.href = `${process.env.REACT_APP_LOCAL_URL}/orders/details?orderId=${orderId}`;
+        window.location.href = `/orders/details?orderId=${orderId}`;
     };
 
     return (

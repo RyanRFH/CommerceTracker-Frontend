@@ -29,7 +29,6 @@ const OrderDetails = () => {
         window.location.href = `/orders`;
     };
 
-
     const getOrder = async () => {
         if (orderId) {
             queryArray = ["orderId", orderId];
@@ -52,8 +51,8 @@ const OrderDetails = () => {
             console.log("Error retrieving orders");
             return;
         };
-
-        if (res.message.$values[0].userId !== user.id) {
+        console.log(user.role)
+        if (res.message.$values[0].userId !== user.id && user.role !== "Admin") {
             setErrorMessage("Unauthorized to view this order");
             return;
         }

@@ -49,7 +49,7 @@ const NavBar = () => {
 
     return (
         <div className='flex justify-center border-b-[2px] text-sm md:text-xl'>
-            <div className='flex w-[100%] md:w-[100%]'>
+            <div className='flex justify-center items-center w-[100%] md:w-[100%]'>
 
                 {/* Logo */}
                 <div className=''>
@@ -61,7 +61,7 @@ const NavBar = () => {
 
 
                 {/* Page Links */}
-                <div className='flex justify-center md:hidden items-center w-1/2 mx-[10px]'>
+                <div className='flex justify-center lg:hidden items-center w-1/2 mx-[10px]'>
                     <Dropdown>
                         <MenuButton><img alt='burger icon' className='w-[20px]' src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1200px-Hamburger_icon.svg.png' /></MenuButton>
                         <Menu className='bg-white border px-[20px] py-[10px]'>
@@ -74,22 +74,31 @@ const NavBar = () => {
                             <a className='hover:opacity-50' href='/orders'>
                                 <p>Orders</p>
                             </a>
+                            <a className='hover:opacity-50' href='/analysis'>
+                                <p>Analysis</p>
+                            </a>
                         </Menu>
                     </Dropdown>
                 </div>
+                <div className='flex items-center justify-center w-full'>
+                    <div className='hidden justify-around items-center w-1/2 ml-[0px] lg:flex'>
+                        <a className='hover:opacity-50' href='/'>
+                            <p>Home</p>
+                        </a>
+                        <a className='hover:opacity-50' href='/products'>
+                            <p>Products</p>
+                        </a>
 
-                <div className='hidden justify-around items-center w-1/2 ml-[20px] md:flex'>
-                    <a className='hover:opacity-50' href='/'>
-                        <p>Home</p>
-                    </a>
-                    <a className='hover:opacity-50' href='/products'>
-                        <p>Products</p>
-                    </a>
+                        <a className='hover:opacity-50' href='/orders'>
+                            <p>Orders</p>
+                        </a>
 
-                    <a className='hover:opacity-50' href='/orders'>
-                        <p>Orders</p>
-                    </a>
+                        <a className='hover:opacity-50' href='/analysis'>
+                            <p>Analysis</p>
+                        </a>
+                    </div>
                 </div>
+
                 {/* Page Links */}
 
 

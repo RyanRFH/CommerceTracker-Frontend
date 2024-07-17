@@ -11,6 +11,7 @@ import Basket from './pages/Basket/Basket';
 import Orders from './pages/Orders/Orders';
 import OrderDetails from './pages/Orders/OrderDetails';
 import Profile from './pages/Profile/Profile';
+import Analysis from './pages/Analysis/Analysis';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path='orders' element={<Orders />} />
           <Route path='orders/details' element={<OrderDetails />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='analysis' element={<Analysis />} />
         </Routes>
       </BrowserRouter>
       <Footer />
