@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Search from "../../../components/Search/Search"
-import { GetProductQuery } from "../../../services/ProductServices";
+import { DeleteProduct, GetProductQuery } from "../../../services/ProductServices";
 
 
 
@@ -24,11 +24,17 @@ const ProductsSearch = () => {
         getProductsByQuery();
     };
 
+    const deleteProduct = async (productId: string) => {
+        let response = await DeleteProduct(productId);
+        getProductsByQuery();
+        return response;
+    };
+
 
 
     return (
         <div className='h-full'>
-            <Search searchType="products" searchResults={searchResults}></Search>
+            <Search searchType="products" searchResults={searchResults} deleteProductCallBack={deleteProduct}></Search>
 
         </div>
     );

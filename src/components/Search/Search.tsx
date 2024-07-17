@@ -27,7 +27,7 @@ const SearchPage = (props: any) => {
                         Loading...
                     </div >
                     :
-                    <SearchResultsList searchResults={props.searchResults} searchType={props.searchType} />
+                    <SearchResultsList searchResults={props.searchResults} searchType={props.searchType} deleteProductCallBack={props.deleteProductCallBack} />
                 }
             </div>
             <div className={`justify-center mt-[30px] text-[20px] ${errorFlag ? "flex" : "hidden"} `}>

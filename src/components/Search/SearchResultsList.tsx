@@ -3,6 +3,7 @@ import ProductCreateForm from '../Products/ProductCreateForm';
 import { Button, Tooltip } from '@mui/joy';
 import { AddToBasket } from '../../services/BasketService';
 import { getUser } from '../../services/AccountServices';
+import { DeleteProduct } from '../../services/ProductServices';
 // import { getCookie } from '../../common/Cookies/cookies';
 
 const SearchResultsList = (props: any) => {
@@ -34,7 +35,6 @@ const SearchResultsList = (props: any) => {
 
     const getUserDetails = async () => {
         const user = await getUser();
-        console.log(user);
 
         if (user.error) {
             setUserDetails(null);
@@ -54,6 +54,13 @@ const SearchResultsList = (props: any) => {
         setAddProductButtonState(false);
         let response = await AddToBasket(productId);
 
+        if (response.error || !response.success) {
+            setProductAdded(`${productName}`);
+            setProductAddedMessage(`error in adding to basket`);
+            setProductAddedMessageState("fixed");
+            return;
+        }
+
         setProductAdded(`${productName}`);
         setProductAddedMessage(`added to basket`);
         setProductAddedMessageState("fixed");
@@ -61,6 +68,24 @@ const SearchResultsList = (props: any) => {
         setAddProductButtonState(true);
 
     };
+
+    const deleteProductClickHandler = async (productId: string, productName: string) => {
+        setAddProductButtonState(false);
+        let response = await props.deleteProductCallBack(productId);
+
+        if (response.error || !response.success) {
+            setProductAdded(`${productName}`);
+            setProductAddedMessage(`error in deleting product`);
+            setProductAddedMessageState("fixed");
+            return;
+        }
+
+        setProductAdded(`${productName}`);
+        setProductAddedMessage(`deleted`);
+        setProductAddedMessageState("fixed");
+
+        setAddProductButtonState(true);
+    }
 
     const nextPageSubmitHandler = () => {
         if (pageNumber + 1 > totalPageCount) {
@@ -216,6 +241,19 @@ const SearchResultsList = (props: any) => {
                                                         :
                                                         <Button onClick={() => addItemToBasketClickHandler(product.productId, product.name)} className="">Add to basket</Button>
                                                     }
+                                                    <div className='mt-[10px]'>
+                                                        {!addProductButtonState || userDetails?.role !== "Admin"
+                                                            ?
+                                                            <Tooltip title="Requires admin account" arrow>
+                                                                <div>
+                                                                    <Button disabled className="pointer-events-none">Delete Product</Button>
+                                                                </div>
+                                                            </Tooltip>
+                                                            :
+                                                            <Button color='danger' onClick={() => deleteProductClickHandler(product.productId, product.name)}>Delete Product</Button>
+                                                        }
+                                                    </div>
+
 
                                                 </td>
                                             </tr>

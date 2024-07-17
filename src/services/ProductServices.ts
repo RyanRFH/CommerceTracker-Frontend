@@ -1,5 +1,6 @@
 import { Product } from "../Dtos/Products/CreateProductDto";
 import { getCookie } from "../common/Cookies/cookies";
+import { getUser } from "./AccountServices";
 
 //Get a list of products via a query using url parameters
 export const GetProductQuery = async (query: Array<string>) => {
@@ -93,5 +94,36 @@ export const GetProductList = async (queryType: string, queryValues: string) => 
     } catch (error) {
         console.log("Error in services/products/GetProductList");
         return { error: error };
+    }
+};
+
+export const DeleteProduct = async (productId: string) => {
+    const userJWt = getCookie("login-jwt");
+
+    let user = await getUser();
+
+    if (user.error) {
+        return { success: false, message: "User not found" };
+    };
+
+    try {
+        const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/product`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userJWt}`
+            },
+            body: JSON.stringify(productId)
+
+        });
+
+        if (res.ok === false) {
+            return { error: `Fetch failed`, message: res.statusText };
+        }
+        const data = await res.json();
+        return { success: true, message: data };
+    } catch (error) {
+        console.log("Error in services/product/DeleteOrder");
+        return { error: error, message: "An error occurred" };
     }
 };
