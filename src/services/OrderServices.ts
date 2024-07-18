@@ -52,7 +52,7 @@ export const GetOrdersByQuery = async (query: Array<string>) => {
     }
 
     const userJWt = getCookie("login-jwt");
-    console.log(queryURL);
+
     try {
         const res = await fetch(queryURL, {
             method: "GET",

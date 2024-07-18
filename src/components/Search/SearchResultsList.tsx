@@ -52,6 +52,7 @@ const SearchResultsList = (props: any) => {
 
     const addItemToBasketClickHandler = async (productId: string, productName: string) => {
         setAddProductButtonState(false);
+
         let response = await AddToBasket(productId);
 
         if (response.error || !response.success) {
@@ -70,15 +71,25 @@ const SearchResultsList = (props: any) => {
     };
 
     const deleteProductClickHandler = async (productId: string, productName: string) => {
+
         setAddProductButtonState(false);
+
+        let userRes = window.confirm(`Delete ${productName}?`);
+        if (userRes === false) {
+            setAddProductButtonState(true);
+            return;
+        }
+
         let response = await props.deleteProductCallBack(productId);
+
+
 
         if (response.error || !response.success) {
             setProductAdded(`${productName}`);
             setProductAddedMessage(`error in deleting product`);
             setProductAddedMessageState("fixed");
             return;
-        }
+        };
 
         setProductAdded(`${productName}`);
         setProductAddedMessage(`deleted`);
