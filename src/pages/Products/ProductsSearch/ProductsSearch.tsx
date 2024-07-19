@@ -39,13 +39,9 @@ const ProductsSearch = () => {
                 <div className='items-center justify-center text-xl'>
                     <a className='h-full' href='/basket'>
                         <Button>
-
-
                             <img className='max-w-[20px] md:max-w-[35px] mr-[10px]' src='https://icons.veryicon.com/png/o/system/dan_system/shopping-basket-11.png' />
-
-                            Basket
+                            BASKET
                         </Button>
-
                     </a>
                 </div>
 

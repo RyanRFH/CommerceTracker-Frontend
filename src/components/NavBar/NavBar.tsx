@@ -59,6 +59,22 @@ const NavBar = () => {
                 </div>
                 {/* Logo */}
 
+                {/* {Link to backend} */}
+                <div className='text-xs w-[200px] ml-[20px] text-blue-500'>
+                    <a target='_blank' className='flex items-center hover:underline' href='https://commerce-api-dotnet.azurewebsites.net/api/product'>
+                        <img className='w-[20px] mr-[5px]' src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/External_link_font_awesome.svg/1200px-External_link_font_awesome.svg.png' />
+                        <p>Backend API</p>
+                    </a>
+                    <a target='_blank' className='flex items-center hover:underline' href='https://github.com/RyanRFH/Commerce-Tracker'>
+                        <img className='w-[20px] mr-[5px]' src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/External_link_font_awesome.svg/1200px-External_link_font_awesome.svg.png' />
+                        <p>Backend Github</p>
+                    </a>
+                    <a target='_blank' className='flex items-center hover:underline' href='https://github.com/RyanRFH/CommerceTracker-Frontend/tree/main/src'>
+                        <img className='w-[20px] mr-[5px]' src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/External_link_font_awesome.svg/1200px-External_link_font_awesome.svg.png' />
+                        <p>Frontend Github</p>
+                    </a>
+                </div>
+                {/* {Link to backend} */}
 
                 {/* Page Links */}
                 <div className='flex justify-center lg:hidden items-center w-1/2 mx-[10px]'>
