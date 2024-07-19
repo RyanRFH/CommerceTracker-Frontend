@@ -61,6 +61,17 @@ const Orders = () => {
         };
 
         if (res.message.$values) {
+            console.log(res.message.$values);
+            let orders: Array<any> = res.message.$values;
+            orders.sort((a: any, b: any) => {
+                if (Date.parse(a.createdAt) > Date.parse(b.createdAt)) {
+                    return -1;
+                } else if (Date.parse(a.createdAt) < Date.parse(b.createdAt)) {
+                    return 1;
+                }
+                return 0;
+            });
+            console.log(orders);
             setOrders(res.message.$values);
             setNotificationMessage("Viewing All Orders");
         } else {
@@ -76,8 +87,11 @@ const Orders = () => {
 
     return (
         <div>
-            <p className='flex items-center justify-center my-[30px] text-3xl'>{errorMessage}</p>
+            <div className='flex flex-col items-center justify-center mt-[30px]'>
+                <h1 className='text-4xl'>{errorMessage}</h1>
+            </div>
             <p className='flex items-center justify-center my-[30px] text-3xl'>{notificationMessage}</p>
+
             <OrderResults orderList={orders} />
         </div>
     );

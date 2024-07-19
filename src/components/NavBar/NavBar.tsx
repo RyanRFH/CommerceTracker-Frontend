@@ -52,7 +52,7 @@ const NavBar = () => {
             <div className='flex justify-center items-center w-[100%] md:w-[100%]'>
 
                 {/* Logo */}
-                <div className=''>
+                <div className='md:flex hidden'>
                     <a href='/'>
                         <img src={logo} className='max-w-[75px] md:max-w-[150px] ml-[20px] my-[10px]' alt='logo' />
                     </a>
@@ -60,7 +60,7 @@ const NavBar = () => {
                 {/* Logo */}
 
                 {/* {Link to backend} */}
-                <div className='text-xs w-[200px] ml-[20px] text-blue-500'>
+                <div className='md:text-base text-xs md:w-[300px] ml-[20px] text-blue-500'>
                     <a target='_blank' className='flex items-center hover:underline' href='https://commerce-api-dotnet.azurewebsites.net/api/product'>
                         <img className='w-[20px] mr-[5px]' src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/External_link_font_awesome.svg/1200px-External_link_font_awesome.svg.png' />
                         <p>Backend API</p>
@@ -96,7 +96,7 @@ const NavBar = () => {
                         </Menu>
                     </Dropdown>
                 </div>
-                <div className='flex items-center justify-center w-full'>
+                <div className='hidden lg:flex items-center justify-center w-full'>
                     <div className='hidden justify-around items-center w-1/2 ml-[0px] lg:flex'>
                         <a className='hover:opacity-50' href='/'>
                             <p>Home</p>
@@ -128,7 +128,7 @@ const NavBar = () => {
                                         <img className='max-w-[20px] md:max-w-[40px]' src='https://icons.veryicon.com/png/o/system/dan_system/shopping-basket-11.png' />
                                     </div>
                                 </a>
-                                <button onClick={() => setIsUserModalOpen(!isUserModalOpen)} className='flex items-center hover:opacity-50'>
+                                <button onClick={() => setIsUserModalOpen(!isUserModalOpen)} className='flex items-center hover:opacity-50 mr-[10px]'>
                                     <img className='mr-[5px] w-[40px] hidden md:block' alt='usericon' src='https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg' />
                                     <p className='md:mr-[30px]'>{userDetails.userName}</p>
                                 </button>
@@ -140,7 +140,7 @@ const NavBar = () => {
                                     </div>
                                 </div>
 
-                                <div className={`flex items-center ${userDetails?.role === "Admin" ? "bg-green-400" : "bg-yellow-400"} rounded-3xl px-[12px] md:px-[20px] mx-[5px] md:mx-[20px] text-xs md:text-sm font-bold h-[40px]`}>
+                                <div className={`md:flex hidden items-center ${userDetails?.role === "Admin" ? "bg-green-400" : "bg-yellow-400"} rounded-3xl px-[12px] md:px-[20px] mx-[5px] md:mx-[20px] text-xs md:text-sm font-bold h-[40px]`}>
                                     <p>{userDetails?.role.toUpperCase()}</p>
                                 </div>
 
