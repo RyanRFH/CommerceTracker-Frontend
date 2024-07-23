@@ -30,7 +30,7 @@ const Signup = () => {
         };
 
         const response = await registerUser(user);
-        if (response.error.message) {
+        if (response?.error?.message) {
             setErrorMessage(response.error.message);
             return;
         }
