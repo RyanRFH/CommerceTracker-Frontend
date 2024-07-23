@@ -10,7 +10,7 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [role, setRole] = useState("");
+    const [role, setRole] = useState("User");
     const [errorMessage, setErrorMessage] = useState("");
 
     const onRegisterSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,8 +30,8 @@ const Signup = () => {
         };
 
         const response = await registerUser(user);
-        if (response.error) {
-            setErrorMessage(response.error);
+        if (response.error.message) {
+            setErrorMessage(response.error.message);
             return;
         }
 
@@ -44,7 +44,7 @@ const Signup = () => {
         window.location.href = `/`;
 
     };
-
+    console.log(errorMessage);
 
     return (
         <div className='flex items-center justify-center mt-[50px]'>
