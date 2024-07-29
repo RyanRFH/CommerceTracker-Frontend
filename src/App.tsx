@@ -12,10 +12,12 @@ import Orders from './pages/Orders/Orders';
 import OrderDetails from './pages/Orders/OrderDetails';
 import Profile from './pages/Profile/Profile';
 import Analysis from './pages/Analysis/Analysis';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen h-full">
+      <Analytics />
       <NavBar />
       <BrowserRouter>
         <Routes>
