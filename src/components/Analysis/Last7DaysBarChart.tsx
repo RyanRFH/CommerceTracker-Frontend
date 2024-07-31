@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
 import { getUser } from '../../services/AccountServices';
-import { GetOrdersByQuery } from '../../services/OrderServices';
 
-const Last7DaysBarChart = () => {
+const Last7DaysBarChart = (props: any) => {
 
     let xAxisData: Array<any> = [];
     let xAxisDataDates: Array<Date> = [];
@@ -17,6 +16,11 @@ const Last7DaysBarChart = () => {
 
     //Display order data for last 7 days
     const getBarChartData = async () => {
+
+        if (!props.orderData?.message?.$values) {
+            return;
+        }
+
         let user = await getUser();
         if (user.role !== "Admin") {
             return;
@@ -33,9 +37,14 @@ const Last7DaysBarChart = () => {
 
         xAxisData.reverse();
         setxAxisDataState(xAxisData);
+
+
         seriesOrderCountData = [0, 0, 0, 0, 0, 0, 0];
         seriesData = [0, 0, 0, 0, 0, 0, 0];
-        const orderData = await GetOrdersByQuery([]);
+
+        // const orderData = await GetOrdersByQuery([]);
+        const orderData = props.orderData;
+
         orderData.message.$values.forEach((value: any) => {
             let tempPrice = 0;
             value.orderItems.$values.forEach((orderItem: any) => {
@@ -57,7 +66,7 @@ const Last7DaysBarChart = () => {
 
     useEffect(() => {
         getBarChartData();
-    }, []);
+    }, [props]);
 
     const chartSetting = {
         yAxis: [
@@ -76,14 +85,21 @@ const Last7DaysBarChart = () => {
 
     return (
         <div>
-            <div className='flex flex-col mt-[30px] ml-[30px]'>
-                <h1 className='text-4xl'>Daily Sales in last 7 days</h1>
-                <BarChart
-                    xAxis={[{ scaleType: 'band', data: xAxisDataState }]}
-                    series={[{ label: "Daily Sales", data: seriesDataDisplay }, { label: "Orders", data: seriesOrderCountDisplay }]}
-                    {...chartSetting}
-                />
-            </div>
+            {userAuthorized === true
+                ?
+                <div className='flex flex-col mt-[30px] ml-[30px]'>
+                    <h1 className='text-4xl'>Daily Sales in last 7 days</h1>
+                    <BarChart
+                        xAxis={[{ scaleType: 'band', data: xAxisDataState }]}
+                        series={[{ label: "Daily Sales", data: seriesDataDisplay }, { label: "Orders", data: seriesOrderCountDisplay }]}
+                        {...chartSetting}
+                    />
+                </div>
+                :
+                <div>
+                    <p>Admin account required</p>
+                </div>
+            }
         </div>
     );
 };

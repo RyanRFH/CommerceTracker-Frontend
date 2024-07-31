@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses, LineChart } from '@mui/x-charts';
 import { getUser } from '../../services/AccountServices';
-import { GetOrdersByQuery } from '../../services/OrderServices';
 
-const Last7DaysBarChart = () => {
+const Last7DaysBarChart = (props: any) => {
 
     let xAxisData: Array<any> = [];
     let xAxisDataDates: Array<Date> = [];
@@ -17,6 +15,11 @@ const Last7DaysBarChart = () => {
 
     //Display order data for last 7 days
     const getBarChartData = async () => {
+
+        if (!props.orderData?.message?.$values) {
+            return;
+        }
+
         let user = await getUser();
         if (user.role !== "Admin") {
             return;
@@ -36,12 +39,12 @@ const Last7DaysBarChart = () => {
         setxAxisDataState(xAxisData);
 
         seriesData = [0, 0, 0, 0, 0, 0, 0];
-        const orderData = await GetOrdersByQuery([]);
+        // const orderData = await GetOrdersByQuery([]);
+        const orderData = props.orderData;
         let totalSales = 0;
         let totalOrders = 0;
 
         for (let i = 6; i > -1; i--) {
-            console.log(orderData.message.$values);
             orderData.message.$values.forEach((order: any) => {
                 let orderCreationDate = new Date(Date.parse(order.createdAt));
                 let tempOrderSales = 0;
@@ -86,22 +89,29 @@ const Last7DaysBarChart = () => {
 
     return (
         <div>
-            <div className='flex flex-col mt-[30px] ml-[30px]'>
-                <h1 className='text-4xl'>Total Sales in last 7 days</h1>
+            {userAuthorized === true
+                ?
+                <div className='flex flex-col mt-[30px] ml-[30px]'>
+                    <h1 className='text-4xl'>Total Sales in last 7 days</h1>
 
-                <LineChart
-                    xAxis={[{ data: xAxisDataState, scaleType: `point` }]}
-                    series={[
-                        {
-                            label: "Total Sales",
-                            data: seriesDataDisplay
-                        }, { label: "Orders", data: seriesOrderCountDisplay }
-                    ]}
-                    {...chartSetting}
-                    width={1500}
-                    height={500}
-                />
-            </div>
+                    <LineChart
+                        xAxis={[{ data: xAxisDataState, scaleType: `point` }]}
+                        series={[
+                            {
+                                label: "Total Sales",
+                                data: seriesDataDisplay
+                            }, { label: "Orders", data: seriesOrderCountDisplay }
+                        ]}
+                        {...chartSetting}
+                        width={1500}
+                        height={500}
+                    />
+                </div>
+                :
+                <div>
+                    <p>Admin account required</p>
+                </div>
+            }
         </div>
     );
 };

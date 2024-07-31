@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { axisClasses, BarChart, LineChart } from '@mui/x-charts';
-import { transform } from 'typescript';
 import { GetOrdersByQuery } from '../../services/OrderServices';
 import { getUser } from '../../services/AccountServices';
 import Last7DaysBarChart from '../../components/Analysis/Last7DaysBarChart';
@@ -13,61 +11,42 @@ const Analysis = () => {
     // let [seriesDataDisplay, setSeriesDataDisplay] = useState(Array<any>);
     // let [xAxisDataState, setxAxisDataState] = useState(Array<any>);
     let [userAuthorized, setUserAuthorized] = useState(false);
+    let [errorMessage, setErrorMessage] = useState("");
+    const [orderData, setOrderData] = useState(Object);
 
     const checkUser = async () => {
         const user = await getUser();
 
         if (user.role !== "Admin") {
+            setErrorMessage("Admin account required");
             return;
         } else {
             setUserAuthorized(true);
         }
     };
 
+    const getOrderData = async () => {
+        const response = await GetOrdersByQuery([]);
+        if (response.success === false) {
+            setErrorMessage("Failed to fetch data");
+            return;
+        }
 
-    //Display order data for last 7 days
-    // const getBarChartData = async () => {
-    //     let user = await getUser();
-    //     if (user.role !== "Admin") {
-    //         return;
-    //     } else {
-    //         setUserAuthorized(true);
-    //     }
+        console.log(response)
 
-    //     let date = new Date();
-    //     for (let i = 0; i < 7; i++) {
-    //         let newDate = new Date(date.getTime() - i * 86400000);
-    //         xAxisDataDates.push(newDate);
-    //         xAxisData.push(newDate.toLocaleDateString());
-    //     };
+        if (response) {
+            setOrderData(response);
+            return;
+        } else {
+            setErrorMessage("Data is invalid");
+            return;
+        };
 
-    //     xAxisData.reverse();
-
-    //     seriesData = [0, 0, 0, 0, 0, 0, 0];
-    //     const orderData = await GetOrdersByQuery([]);
-    //     orderData.message.$values.forEach((value: any) => {
-    //         let tempPrice = 0;
-    //         value.orderItems.$values.forEach((orderItem: any) => {
-    //             tempPrice += orderItem.quantity * orderItem.product.price;
-    //         });
-
-    //         let orderCreationDate = new Date(Date.parse(value.createdAt));
-
-    //         for (let i = 0; i < 7; i++) {
-
-    //             if (xAxisDataDates[i].getDate() === orderCreationDate.getDate()) {
-    //                 seriesData[6 - i] += tempPrice;
-    //             }
-
-    //         };
-
-    //         setSeriesDataDisplay(seriesData);
-    //         setxAxisDataState(xAxisData);
-    //     });
-    // };
+    };
 
     useEffect(() => {
         checkUser();
+        getOrderData();
     }, []);
 
     return (
@@ -75,13 +54,13 @@ const Analysis = () => {
             {userAuthorized
                 ?
                 <div>
-                    <Last7DaysBarChart />
+                    <Last7DaysBarChart orderData={orderData} />
                     <Last7DaysLineChart />
                 </div>
 
                 :
                 <div className='flex flex-col items-center justify-center mt-[30px]'>
-                    <h1 className='text-4xl'>Requires admin account</h1>
+                    <h1 className='text-4xl'>{errorMessage}</h1>
                 </div>
             }
 
