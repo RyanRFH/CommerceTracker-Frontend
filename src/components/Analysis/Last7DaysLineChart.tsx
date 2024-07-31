@@ -70,7 +70,7 @@ const Last7DaysBarChart = (props: any) => {
 
     useEffect(() => {
         getBarChartData();
-    }, []);
+    }, [props]);
 
     const chartSetting = {
         yAxis: [

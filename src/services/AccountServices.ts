@@ -17,7 +17,7 @@ export const loginUser = async (username: string, password: string) => {
         }
         const data = await response.json();
 
-        writeCookie("login-jwt", data.token, 14);
+        writeCookie("login-jwt", data.token, 7);
 
         return data;
     } catch (error) {
