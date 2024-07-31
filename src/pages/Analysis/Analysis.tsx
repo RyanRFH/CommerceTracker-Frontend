@@ -55,7 +55,7 @@ const Analysis = () => {
                 ?
                 <div>
                     <Last7DaysBarChart orderData={orderData} />
-                    <Last7DaysLineChart />
+                    <Last7DaysLineChart orderData={orderData} />
                 </div>
 
                 :
