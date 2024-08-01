@@ -11,7 +11,7 @@ const OrderResults = (props: any) => {
         props.orderList.map((order: any) => {
             let totalPrice = 0;
             order?.orderItems.$values.map((value: any) => {
-                totalPrice += value.product.price;
+                totalPrice += value.product.price * value.quantity;
             })
             totalPriceArray.push(totalPrice);
         });

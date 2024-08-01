@@ -54,10 +54,14 @@ const Last7DaysBarChart = (props: any) => {
                 let currentDateMinusDays = new Date(date.getTime() - i * 1000 * 60 * 60 * 24);
 
                 if (orderCreationDate.getDate() === currentDateMinusDays.getDate()) {
+
                     totalOrders++;
                     order.orderItems.$values.forEach((orderItem: any) => {
-                        tempOrderSales += orderItem.quantity * orderItem.product.price
+                        tempOrderSales += orderItem.quantity * orderItem.product.price;
+                        console.log("date = ", orderCreationDate.getDate(), "order item value = ", orderItem.quantity * orderItem.product.price, "total = ", tempOrderSales);
                     });
+
+
                 };
                 totalSales += tempOrderSales;
                 seriesData[6 - i] = totalSales;
