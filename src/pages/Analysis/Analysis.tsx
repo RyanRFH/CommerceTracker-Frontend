@@ -32,8 +32,6 @@ const Analysis = () => {
             return;
         }
 
-        console.log(response)
-
         if (response) {
             setOrderData(response);
             return;

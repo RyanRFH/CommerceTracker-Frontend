@@ -45,12 +45,15 @@ const Last7DaysBarChart = (props: any) => {
         // const orderData = await GetOrdersByQuery([]);
         const orderData = props.orderData;
 
+
+
         orderData.message.$values.forEach((value: any) => {
             let tempPrice = 0;
             value.orderItems.$values.forEach((orderItem: any) => {
                 tempPrice += orderItem.quantity * orderItem.product.price;
             });
             let orderCreationDate = new Date(Date.parse(value.createdAt));
+
             for (let i = 0; i < 7; i++) {
 
                 if (xAxisDataDates[i].getDate() === orderCreationDate.getDate()) {

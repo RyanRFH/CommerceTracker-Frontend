@@ -20,6 +20,8 @@ const Last7DaysBarChart = (props: any) => {
             return;
         }
 
+        console.log(props.orderData?.message?.$values);
+
         let user = await getUser();
         if (user.role !== "Admin") {
             return;
@@ -48,7 +50,10 @@ const Last7DaysBarChart = (props: any) => {
             orderData.message.$values.forEach((order: any) => {
                 let orderCreationDate = new Date(Date.parse(order.createdAt));
                 let tempOrderSales = 0;
-                if (orderCreationDate.getDate() === date.getDate() - i) {
+
+                let currentDateMinusDays = new Date(date.getTime() - i * 1000 * 60 * 60 * 24);
+
+                if (orderCreationDate.getDate() === currentDateMinusDays.getDate()) {
                     totalOrders++;
                     order.orderItems.$values.forEach((orderItem: any) => {
                         tempOrderSales += orderItem.quantity * orderItem.product.price
@@ -56,11 +61,9 @@ const Last7DaysBarChart = (props: any) => {
                 };
                 totalSales += tempOrderSales;
                 seriesData[6 - i] = totalSales;
-
-
                 seriesOrderCountData[6 - i] = totalOrders;
-
             });
+            console.log(seriesOrderCountData);
 
         };
 
