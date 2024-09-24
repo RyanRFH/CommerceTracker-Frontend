@@ -40,8 +40,8 @@ const Home = () => {
 
                 <div className='flex justify-center items-center'>
                     <a href='/orders' className='w-full h-full flex justify-center items-center'>
-                        <img className='mt-[10px] max-w-[300px] lg:max-w-[400px] rounded-xl absolute z-[5] shadow-2xl' src='https://cdn-ikppnan.nitrocdn.com/zaXtQkXNMlZQivMrhELgMpbOEjTHUDcT/assets/images/optimized/rev-c790198/www.locate2u.com/wp-content/uploads/elementor/thumbs/A-1-47-qmwyerlvt0ntofi3fg220f0adfvckpe5xgtubb4uyy.webp' alt='orders' />
-                        <p className='text-white font-bold bg-blue-400 rounded-md px-[20px] py-[5px] z-[6]'>Orders</p>
+                        <img className='mt-[10px] max-w-[300px] lg:max-w-[425px] rounded-xl absolute z-[5] shadow-2xl' src='https://eu-images.contentstack.com/v3/assets/blt892f41c9788ae399/blt0f95964a562f7f3f/62e38ce74ec9fe660e803f47/An_Ultimate_Java_Framework_List_for_Advanced_Engineers_XL_Big.jpg' alt='orders' />
+                        <p className='text-white font-bold bg-blue-600 rounded-md px-[20px] py-[5px] z-[6]'>Orders</p>
                     </a>
                 </div>
 
