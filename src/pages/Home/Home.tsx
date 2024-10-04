@@ -3,11 +3,35 @@
 // import bgImage from '../../assets/shopping-bag-cart.jpg'
 import SearchBarAlone from '../../components/Search/SearchBarAlone';
 import bgImageLong from '../../assets/shopping-cart-with-bag.jpg'
+import { FormEvent, useEffect, useState } from 'react';
+import { getUser, loginUser } from '../../services/AccountServices';
 
 const Home = () => {
+
+    const [statusMessage, setStatusMessage] = useState("");
+
+    const loginAsGuestAdminSubmitHandler = async () => {
+
+        let user = await getUser();
+        if (!user.error) {
+            return;
+        }
+
+        const response = await loginUser("GuestAdmin", "Qwertyuiop123!");
+        if (!response.error) {
+            setStatusMessage("Automatically logged in as Admin");
+        };
+    };
+
+    useEffect(() => {
+        loginAsGuestAdminSubmitHandler();
+    }, []);
+
     console.log("Home Page Working");
     return (
         <div className='bg-slate-100 min-h-screen'>
+
+            <div className='items-center justify-center flex text-green-400 mt-[10px]'>{statusMessage}</div>
 
             {/* Background Images */}
             <div>

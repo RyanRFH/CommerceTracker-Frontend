@@ -88,8 +88,8 @@ const Login = () => {
 
                     </form>
                     <div className='flex justify-evenly items-center mt-[10px]'>
-                        <button onClick={loginAsGuestUserSubmitHandler} className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-2/5">Sign in as guest (User)</button>
-                        <button onClick={loginAsGuestAdminSubmitHandler} className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-2/5">Sign in as guest (Admin)</button>
+                        <button onClick={loginAsGuestUserSubmitHandler} className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-2/5">Quick Sign in as User</button>
+                        <button onClick={loginAsGuestAdminSubmitHandler} className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-2/5">Quick Sign in as Admin</button>
                     </div>
 
 

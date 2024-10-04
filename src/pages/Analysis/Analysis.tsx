@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { GetOrdersByQuery } from '../../services/OrderServices';
-import { getUser } from '../../services/AccountServices';
+import { getUser, loginUser } from '../../services/AccountServices';
 import Last7DaysBarChart from '../../components/Analysis/Last7DaysBarChart';
 import Last7DaysLineChart from '../../components/Analysis/Last7DaysLineChart';
 
@@ -47,6 +47,18 @@ const Analysis = () => {
         getOrderData();
     }, []);
 
+    const loginAsGuestAdminSubmitHandler = async (event: FormEvent) => {
+        event.preventDefault();
+        const response = await loginUser("GuestAdmin", "Qwertyuiop123!");
+
+        if (response.error) {
+            setErrorMessage("An error occurred");
+            return;
+        }
+
+        window.location.href = `/analysis`;
+    };
+
     return (
         <div>
             {userAuthorized
@@ -59,6 +71,7 @@ const Analysis = () => {
                 :
                 <div className='flex flex-col items-center justify-center mt-[30px]'>
                     <h1 className='text-4xl'>{errorMessage}</h1>
+                    <button onClick={loginAsGuestAdminSubmitHandler} className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-[250px] mt-[10px]">Quick Sign in as Admin</button>
                 </div>
             }
 

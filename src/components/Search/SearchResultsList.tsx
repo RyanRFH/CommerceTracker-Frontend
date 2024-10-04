@@ -1,8 +1,8 @@
-import React, { RefObject, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, RefObject, useEffect, useRef, useState } from 'react';
 import ProductCreateForm from '../Products/ProductCreateForm';
 import { Button, Tooltip } from '@mui/joy';
 import { AddToBasket } from '../../services/BasketService';
-import { getUser } from '../../services/AccountServices';
+import { getUser, loginUser } from '../../services/AccountServices';
 import { DeleteProduct } from '../../services/ProductServices';
 // import { getCookie } from '../../common/Cookies/cookies';
 
@@ -31,6 +31,7 @@ const SearchResultsList = (props: any) => {
 
     let searchType: string = props.searchType;
 
+
     const [userDetails, setUserDetails] = useState(Object);
 
     const getUserDetails = async () => {
@@ -44,6 +45,13 @@ const SearchResultsList = (props: any) => {
             setUserDetails(user);
         }
     }
+
+    const loginAsGuestAdminSubmitHandler = async (event: FormEvent) => {
+        event.preventDefault();
+        const response = await loginUser("GuestAdmin", "Qwertyuiop123!");
+
+        window.location.href = `/products`;
+    };
 
     const [productAddedMessage, setProductAddedMessage] = useState(`Item added to basket`);
     const [productAdded, setProductAdded] = useState("");
@@ -139,6 +147,9 @@ const SearchResultsList = (props: any) => {
 
     return (
         <div className='flex flex-col flex-wrap items-center h-full'>
+            {userDetails?.role !== "Admin" &&
+                <button onClick={loginAsGuestAdminSubmitHandler} className="bg-yellow-300 hover:bg-yellow-400 text-black font-semibold rounded-md py-2 px-4 w-[250px] mt-[10px]">Quick Sign in as Admin</button>}
+
             {productAddedMessage
                 &&
                 <div className={`${productAddedMessageState} right-[30px] top-[80px] text-xl z-10 bg-white w-[200px] min-h-[100px] border-2 text-center py-[15px]`}>
