@@ -30,18 +30,20 @@ const SearchResultsListItem = (props: any) => {
     let [productDetailsSavedMessage, setProductDetailsSavedMessage] = useState("");
 
 
+    console.log(productDetailsChanged);
 
     const setProductDetails = () => {
-        setProductDetailsChanged(false);
+        setProductDetailsChanged(true);
         let newProductQuantity = quantityElement?.current?.textContent;
         if (newProductQuantity) {
             setProductQuantity(newProductQuantity);
         }
         console.log("saved = ", product.quantity);
         console.log("state = ", productQuantity);
-        if (product.quantity !== productQuantity) {
-            setProductDetailsChanged(false);
-        };
+
+        // if (product.quantity !== productQuantity) {
+        //     setProductDetailsChanged(false);
+        // };
     };
 
 
@@ -67,6 +69,7 @@ const SearchResultsListItem = (props: any) => {
         console.log(updateProductRes);
         if (updateProductRes?.success) {
             setProductDetailsSavedMessage("Product Updated");
+            setProductDetailsChanged(false);
         } else {
             setProductDetailsSavedMessage("An error occurred");
         }
@@ -152,7 +155,7 @@ const SearchResultsListItem = (props: any) => {
             <td>
                 <div className='flex flex-col items-center w-[300px]'>
 
-                    <button disabled={!productDetailsChanged} onClick={updateProductClicked} className={`${productDetailsChanged && "opacity-100 hover:bg-green-400"} flex items-center text-gray-200 bg-green-500 opacity-25 rounded-md border font-bold p-[15px]`}>
+                    <button disabled={!productDetailsChanged} onClick={updateProductClicked} className={`${productDetailsChanged ? "opacity-100 hover:bg-green-400" : "opacity-25"} flex items-center text-gray-200 bg-green-500  rounded-md border font-bold p-[15px]`}>
                         Save Changes
                         <img src={EditIcon} className='w-[32px] ml-[5px]' />
                     </button>
