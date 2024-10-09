@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import EditIcon from '../../assets/save-file.png'
 import { Button, Tooltip } from '@mui/joy';
+import { UpdateProduct } from '../../services/ProductServices';
+import { Product } from '../../Dtos/Products/CreateProductDto';
 
 const SearchResultsListItem = (props: any) => {
 
@@ -10,17 +12,67 @@ const SearchResultsListItem = (props: any) => {
     let addProductButtonState = props.addProductButtonState;
     let deleteProductClickHandler = props.deleteProductClickHandler;
 
-    const quantityElement = useRef<HTMLDivElement | null>(null);
-    let [quantitySaveMessage, setQuantitySaveMessage] = useState("");
 
-    const onQuantityUpdateClick = () => {
-        setQuantitySaveMessage("");
+
+    const [productId, setProductId] = useState(String);
+    const [productName, setProductName] = useState(String);
+    const [productDescription, setProductDescription] = useState(String);
+    const [productQuantity, setProductQuantity] = useState(String);
+    const [productImage, setProductImage] = useState(String);
+
+    const quantityElement = useRef<HTMLDivElement | null>(null);
+
+
+
+
+
+    const [productDetailsChanged, setProductDetailsChanged] = useState(false);
+    let [productDetailsSavedMessage, setProductDetailsSavedMessage] = useState("");
+
+
+
+    const setProductDetails = () => {
+        setProductDetailsChanged(false);
+        let newProductQuantity = quantityElement?.current?.textContent;
+        if (newProductQuantity) {
+            setProductQuantity(newProductQuantity);
+        }
+        console.log("saved = ", product.quantity);
+        console.log("state = ", productQuantity);
+        if (product.quantity !== productQuantity) {
+            setProductDetailsChanged(false);
+        };
+    };
+
+
+    const updateProductClicked = async () => {
+        setProductDetailsSavedMessage("");
         if (quantityElement.current) {
             console.log(quantityElement.current.textContent);
         }
-        //ADD UPDATE PRODUCT SERVICE TO SERVICES AND CALL IT HERE TO UPDATE PRODUCT
+        const updatedProduct: Product = {
+            name: product.name,
+            description: product.description,
+            quantity: product.quantity,
+            price: product.price,
+            imageUrl: product.imageUrl
+        };
 
-        setQuantitySaveMessage("Updated");
+        if (quantityElement?.current?.textContent) {
+            updatedProduct.quantity = quantityElement?.current?.textContent;
+        };
+
+        console.log(product)
+        const updateProductRes = await UpdateProduct(product.productId, updatedProduct);
+        console.log(updateProductRes);
+        if (updateProductRes?.success) {
+            setProductDetailsSavedMessage("Product Updated");
+        } else {
+            setProductDetailsSavedMessage("An error occurred");
+        }
+
+
+
     };
 
     return (
@@ -34,6 +86,7 @@ const SearchResultsListItem = (props: any) => {
                         />
                     </div>
                     <div className="md:ml-3 w-full mb-[50px]">
+
                         <div className="flex items-center flex-col text-gray-900 whitespace-no-wrap">
                             <p className='text-[15px] md:text-[30px]'>
                                 {product.name}
@@ -53,13 +106,9 @@ const SearchResultsListItem = (props: any) => {
                     <p className="text-gray-900  ">
                         Quantity:
                     </p>
-                    <p ref={quantityElement} suppressContentEditableWarning={true} contentEditable="true" className='bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]'>
+                    <p ref={quantityElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable="true" className='bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]'>
                         {product.quantity}
                     </p>
-                    <button onClick={onQuantityUpdateClick}>
-                        <img src={EditIcon} className='w-[24px] ml-[5px]' />
-                    </button>
-                    <p className='text-green-500'>{quantitySaveMessage}</p>
 
                 </div>
 
@@ -98,7 +147,21 @@ const SearchResultsListItem = (props: any) => {
                 </div>
 
 
+
             </td>
+            <td>
+                <div className='flex flex-col items-center w-[300px]'>
+
+                    <button disabled={!productDetailsChanged} onClick={updateProductClicked} className={`${productDetailsChanged && "opacity-100 hover:bg-green-400"} flex items-center text-gray-200 bg-green-500 opacity-25 rounded-md border font-bold p-[15px]`}>
+                        Save Changes
+                        <img src={EditIcon} className='w-[32px] ml-[5px]' />
+                    </button>
+
+                    <p className='text-green-500 text-center'>{productDetailsSavedMessage}</p>
+                </div>
+            </td>
+
+
         </>
 
     );

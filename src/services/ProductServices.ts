@@ -106,6 +106,10 @@ export const DeleteProduct = async (productId: string) => {
         return { success: false, message: "User not found" };
     };
 
+    if (user.role !== "Admin") {
+        return { success: false, message: "Admin is required" };
+    }
+
     try {
         const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/product`, {
             method: "DELETE",
@@ -123,7 +127,42 @@ export const DeleteProduct = async (productId: string) => {
         const data = await res.json();
         return { success: true, message: data };
     } catch (error) {
-        console.log("Error in services/product/DeleteOrder");
+        console.log("Error in services/product/DeleteProduct");
         return { error: error, message: "An error occurred" };
     }
+};
+
+export const UpdateProduct = async (productId: string, product: Product) => {
+    const userJWt = getCookie("login-jwt");
+
+    let user = await getUser();
+
+    if (user.error) {
+        return { success: false, message: "User not found" };
+    };
+
+    if (user.role !== "Admin") {
+        return { success: false, message: "Admin is required" };
+    };
+
+    try {
+        const res = await fetch(`${process.env.REACT_APP_COMMERCE_API_URL}/api/product?Id=${productId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userJWt}`
+            },
+            body: JSON.stringify(product)
+        });
+
+        if (res.ok === false) {
+            return { error: `Fetch failed`, message: res.statusText };
+        }
+        const data = await res.json();
+        return { success: true, message: data };
+    } catch (error) {
+        console.log("Error in services/product/UpdateProduct");
+        return { error: error, message: "An error occurred" };
+    };
+
 };
