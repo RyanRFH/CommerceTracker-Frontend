@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import EditIcon from '../../assets/save-file.png'
+import SaveIcon from '../../assets/save-file.png'
+import EditIcon from '../../assets/edit-247.svg'
 import { Button, Tooltip } from '@mui/joy';
 import { UpdateProduct } from '../../services/ProductServices';
 import { Product } from '../../Dtos/Products/CreateProductDto';
@@ -15,12 +16,15 @@ const SearchResultsListItem = (props: any) => {
 
 
 
-    const [productId, setProductId] = useState(String);
-    const [productName, setProductName] = useState(String);
-    const [productDescription, setProductDescription] = useState(String);
-    const [productQuantity, setProductQuantity] = useState(String);
-    const [productImage, setProductImage] = useState(String);
+    // const [productId, setProductId] = useState(String);
+    // const [productName, setProductName] = useState(String);
+    // const [productDescription, setProductDescription] = useState(String);
+    // const [productQuantity, setProductQuantity] = useState(String);
+    // const [productImage, setProductImage] = useState(String);
 
+    const nameElement = useRef<HTMLDivElement | null>(null);
+    const descriptionElement = useRef<HTMLDivElement | null>(null);
+    const priceElement = useRef<HTMLDivElement | null>(null);
     const quantityElement = useRef<HTMLDivElement | null>(null);
 
 
@@ -30,20 +34,16 @@ const SearchResultsListItem = (props: any) => {
     const [productDetailsChanged, setProductDetailsChanged] = useState(false);
     let [productDetailsSavedMessage, setProductDetailsSavedMessage] = useState("");
 
+    const [editingProduct, setEditingProduct] = useState(false);
+
 
     console.log(productDetailsChanged);
 
     const setProductDetails = () => {
         setProductDetailsChanged(true);
-        let newProductQuantity = quantityElement?.current?.textContent;
-        if (newProductQuantity) {
-            setProductQuantity(newProductQuantity);
-        }
-        console.log("saved = ", product.quantity);
-        console.log("state = ", productQuantity);
-
-        // if (product.quantity !== productQuantity) {
-        //     setProductDetailsChanged(false);
+        // let newProductQuantity = quantityElement?.current?.textContent;
+        // if (newProductQuantity) {
+        //     setProductQuantity(newProductQuantity);
         // };
     };
 
@@ -51,9 +51,7 @@ const SearchResultsListItem = (props: any) => {
     const updateProductClicked = async () => {
         setProductDetailsSavedMessage("");
         setAddProductButtonState(false);
-        if (quantityElement.current) {
-            console.log(quantityElement.current.textContent);
-        }
+
         const updatedProduct: Product = {
             name: product.name,
             description: product.description,
@@ -62,13 +60,23 @@ const SearchResultsListItem = (props: any) => {
             imageUrl: product.imageUrl
         };
 
+        if (nameElement?.current?.textContent) {
+            updatedProduct.name = nameElement?.current?.textContent;
+        };
+        if (descriptionElement?.current?.textContent) {
+            updatedProduct.description = descriptionElement?.current?.textContent;
+        };
+        if (priceElement?.current?.textContent) {
+            updatedProduct.price = priceElement?.current?.textContent;
+        };
         if (quantityElement?.current?.textContent) {
             updatedProduct.quantity = quantityElement?.current?.textContent;
         };
 
-        console.log(product)
+
+
         const updateProductRes = await UpdateProduct(product.productId, updatedProduct);
-        console.log(updateProductRes);
+
         if (updateProductRes?.success) {
             setProductDetailsSavedMessage("Product Updated");
             setProductDetailsChanged(false);
@@ -94,7 +102,7 @@ const SearchResultsListItem = (props: any) => {
                     <div className="md:ml-3 w-full mb-[50px]">
 
                         <div className="flex items-center flex-col text-gray-900 whitespace-no-wrap">
-                            <p className='text-[15px] md:text-[30px]'>
+                            <p ref={nameElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable={editingProduct} className={`text-[15px] md:text-[30px] ${editingProduct && "bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]"} `}>
                                 {product.name}
                             </p>
                             <p className='text-[10px] md:text-[20px] text-slate-400 md:mt-[10px]'>
@@ -105,22 +113,27 @@ const SearchResultsListItem = (props: any) => {
                 </div>
             </td>
             <td className="flex flex-col items-center md:w-1/2 text-center border-gray-200 bg-white mb-[10px] mx-[10px]">
-                <p className="text-gray-600 whitespace-no-wrap">
+                <p ref={descriptionElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable={editingProduct} className={`text-gray-600 whitespace-no-wrap ${editingProduct && " bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]"}`}>
                     {product.description}
                 </p>
                 <div className='flex items-center justify-center w-full my-[10px]'>
                     <p className="text-gray-900  ">
                         Quantity:
                     </p>
-                    <p ref={quantityElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable="true" className='bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]'>
+                    <p ref={quantityElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable={editingProduct} className={`${editingProduct && " bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]"}`}>
                         {product.quantity}
                     </p>
 
                 </div>
+                <div className='flex items-center justify-center w-full my-[10px]'>
+                    <p className="text-gray-900  ">
+                        £
+                    </p>
+                    <p ref={priceElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable={editingProduct} className={`${editingProduct && " bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]"}`}>
+                        {product.price}
+                    </p>
+                </div>
 
-                <p className="text-gray-900 whitespace-no-wrap mb-[10px]">
-                    £{product.price}
-                </p>
                 <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight z-[0] mb-[20px]">
                     <span aria-hidden
                         className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
@@ -158,12 +171,19 @@ const SearchResultsListItem = (props: any) => {
             <td>
                 <div className='flex flex-col items-center w-[300px]'>
 
-                    <button disabled={!productDetailsChanged} onClick={updateProductClicked} className={`${productDetailsChanged ? "opacity-100 hover:bg-green-400" : "opacity-25"} flex items-center text-gray-200 bg-green-500  rounded-md border font-bold p-[15px]`}>
+                    <button disabled={!productDetailsChanged} onClick={updateProductClicked} className={`${productDetailsChanged ? "opacity-100 hover:bg-green-400" : "opacity-25"} flex items-center w-[150px] text-gray-200 bg-green-500  rounded-md border font-bold p-[15px]`}>
                         Save Changes
-                        <img src={EditIcon} className='w-[32px] ml-[5px]' />
+                        <img src={SaveIcon} className='w-[32px] ml-[5px]' />
                     </button>
 
                     <p className='text-green-500 text-center'>{productDetailsSavedMessage}</p>
+                </div>
+                <div className='flex flex-col items-center w-[300px] mt-[10px]'>
+
+                    <button onClick={() => setEditingProduct(!editingProduct)} className={`flex items-center w-[150px] text-white bg-slate-500 rounded-md border font-bold p-[15px] ${editingProduct && "opacity-50"}`}>
+                        Edit Product
+                        <img src={EditIcon} className='w-[32px] ml-[5px]' />
+                    </button>
                 </div>
             </td>
 
