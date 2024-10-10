@@ -179,7 +179,7 @@ const SearchResultsList = (props: any) => {
                             </div>
                             :
                             <div className="lg:ml-40 ml-10 space-x-8 relative">
-                                <Tooltip title="Admin required to create products" arrow>
+                                <Tooltip title="Requires admin account" arrow>
                                     <div>
                                         <div className="bg-indigo-600 pointer-events-none opacity-25 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700">
                                             <p>Create</p>

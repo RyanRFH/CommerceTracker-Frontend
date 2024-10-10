@@ -36,9 +36,6 @@ const SearchResultsListItem = (props: any) => {
 
     const [editingProduct, setEditingProduct] = useState(false);
 
-
-    console.log(productDetailsChanged);
-
     const setProductDetails = () => {
         setProductDetailsChanged(true);
         // let newProductQuantity = quantityElement?.current?.textContent;
@@ -82,7 +79,9 @@ const SearchResultsListItem = (props: any) => {
             setProductDetailsChanged(false);
         } else {
             setProductDetailsSavedMessage("An error occurred");
-        }
+        };
+
+        setEditingProduct(false);
         setAddProductButtonState(true);
 
 
@@ -95,7 +94,7 @@ const SearchResultsListItem = (props: any) => {
                 <div className="flex flex-col items-center w-full">
                     <div className="">
                         <img className="max-w-[200px] md:max-w-[200px] max-h-[200px] md:max-h-[200px]"
-                            src={product.imageUrl}
+                            src={product?.imageUrl}
                             alt="product"
                         />
                     </div>
@@ -103,10 +102,10 @@ const SearchResultsListItem = (props: any) => {
 
                         <div className="flex items-center flex-col text-gray-900 whitespace-no-wrap">
                             <p ref={nameElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable={editingProduct} className={`text-[15px] md:text-[30px] ${editingProduct && "bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]"} `}>
-                                {product.name}
+                                {product?.name}
                             </p>
                             <p className='text-[10px] md:text-[20px] text-slate-400 md:mt-[10px]'>
-                                {product.productId}
+                                {product?.productId}
                             </p>
                         </div>
                     </div>
@@ -114,14 +113,14 @@ const SearchResultsListItem = (props: any) => {
             </td>
             <td className="flex flex-col items-center md:w-1/2 text-center border-gray-200 bg-white mb-[10px] mx-[10px]">
                 <p ref={descriptionElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable={editingProduct} className={`text-gray-600 whitespace-no-wrap ${editingProduct && " bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]"}`}>
-                    {product.description}
+                    {product?.description}
                 </p>
                 <div className='flex items-center justify-center w-full my-[10px]'>
                     <p className="text-gray-900  ">
                         Quantity:
                     </p>
                     <p ref={quantityElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable={editingProduct} className={`${editingProduct && " bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]"}`}>
-                        {product.quantity}
+                        {product?.quantity}
                     </p>
 
                 </div>
@@ -130,7 +129,7 @@ const SearchResultsListItem = (props: any) => {
                         £
                     </p>
                     <p ref={priceElement} suppressContentEditableWarning={true} onInput={() => setProductDetails()} contentEditable={editingProduct} className={`${editingProduct && " bg-gray-100 border-solid border-[1px] border-black p-[5px] ml-[5px]"}`}>
-                        {product.price}
+                        {product?.price}
                     </p>
                 </div>
 
@@ -139,7 +138,7 @@ const SearchResultsListItem = (props: any) => {
                         className="absolute inset-0 bg-green-200 opacity-50 rounded-full">
                     </span>
                     <span className="relative">
-                        {(((Date.now() - Date.parse(product.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
+                        {(((Date.now() - Date.parse(product?.createdAt)) / 1000 / 60 / 60) / 24).toFixed()} days ago
                     </span>
                 </span>
                 {!addProductButtonState || !userDetails?.role
@@ -150,7 +149,7 @@ const SearchResultsListItem = (props: any) => {
                         </div>
                     </Tooltip>
                     :
-                    <Button onClick={() => addItemToBasketClickHandler(product.productId, product.name)} className="">Add to basket</Button>
+                    <Button onClick={() => addItemToBasketClickHandler(product?.productId, product?.name)} className="">Add to basket</Button>
                 }
                 <div className='mt-[10px]'>
                     {!addProductButtonState || userDetails?.role !== "Admin"
@@ -161,7 +160,7 @@ const SearchResultsListItem = (props: any) => {
                             </div>
                         </Tooltip>
                         :
-                        <Button color='danger' onClick={() => deleteProductClickHandler(product.productId, product.name)}>Delete Product</Button>
+                        <Button color='danger' onClick={() => deleteProductClickHandler(product?.productId, product?.name)}>Delete Product</Button>
                     }
                 </div>
 
@@ -179,11 +178,12 @@ const SearchResultsListItem = (props: any) => {
                     <p className='text-green-500 text-center'>{productDetailsSavedMessage}</p>
                 </div>
                 <div className='flex flex-col items-center w-[300px] mt-[10px]'>
-
-                    <button onClick={() => setEditingProduct(!editingProduct)} className={`flex items-center w-[150px] text-white bg-slate-500 rounded-md border font-bold p-[15px] ${editingProduct && "opacity-50"}`}>
-                        Edit Product
-                        <img src={EditIcon} className='w-[32px] ml-[5px]' />
-                    </button>
+                    <Tooltip title={`${userDetails?.role !== "Admin" ? "Requires admin account" : ""}`} arrow>
+                        <button disabled={userDetails?.role !== "Admin"} onClick={() => setEditingProduct(!editingProduct)} className={`flex items-center w-[150px] text-white bg-slate-500 rounded-md border font-bold p-[15px] ${editingProduct && "opacity-50"} ${userDetails?.role !== "Admin" && "opacity-25"}`}>
+                            Edit Product
+                            <img src={EditIcon} className='w-[32px] ml-[5px]' />
+                        </button>
+                    </Tooltip>
                 </div>
             </td>
 
