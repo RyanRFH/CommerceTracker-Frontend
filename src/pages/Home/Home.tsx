@@ -24,7 +24,7 @@ const Home = () => {
     };
 
     useEffect(() => {
-        loginAsGuestAdminSubmitHandler();
+        // loginAsGuestAdminSubmitHandler();
     }, []);
 
     console.log("Home Page Working");

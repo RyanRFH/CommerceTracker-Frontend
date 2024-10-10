@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import logo from "../../assets/etrack-logo-zip-file/png/logo-no-background.png"
-import bgimage from "../../assets/istock-unfinished-business-hed-2015.jpg.webp"
+import bgimage from "../../assets/stockvault-ecommerce-strategy-dropshipping-online-presence280852.jpg"
 import { loginUser } from '../../services/AccountServices';
 
 
@@ -55,7 +55,7 @@ const Login = () => {
 
                 <div className="w-1/2 h-screen hidden lg:block relative">
                     <img src={bgimage} alt="bg" className="object-cover w-full h-full" />
-                    <img src={logo} alt='logo' className='absolute left-0 bottom-0 bg-black bg-opacity-40 py-[30px] px-[50px]' />
+                    {/* <img src={logo} alt='logo' className='absolute left-0 bottom-0 bg-black bg-opacity-40 py-[30px] px-[50px]' /> */}
                 </div>
 
                 <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">

@@ -11,6 +11,7 @@ const SearchResultsListItem = (props: any) => {
     let addItemToBasketClickHandler = props.addItemToBasketClickHandler;
     let addProductButtonState = props.addProductButtonState;
     let deleteProductClickHandler = props.deleteProductClickHandler;
+    let setAddProductButtonState = props.setAddProductButtonState;
 
 
 
@@ -49,6 +50,7 @@ const SearchResultsListItem = (props: any) => {
 
     const updateProductClicked = async () => {
         setProductDetailsSavedMessage("");
+        setAddProductButtonState(false);
         if (quantityElement.current) {
             console.log(quantityElement.current.textContent);
         }
@@ -73,6 +75,7 @@ const SearchResultsListItem = (props: any) => {
         } else {
             setProductDetailsSavedMessage("An error occurred");
         }
+        setAddProductButtonState(true);
 
 
 

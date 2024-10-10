@@ -216,7 +216,7 @@ const SearchResultsList = (props: any) => {
                                     {searchResultsArray && searchResultsArray.map((product: any, index: number) => {
                                         return (
                                             <tr className='flex flex-col md:flex-row md:w-[80%] items-center border-b h-full' key={index}>
-                                                <SearchResultsListItem product={product} userDetails={userDetails} addItemToBasketClickHandler={addItemToBasketClickHandler} addProductButtonState={addProductButtonState} deleteProductClickHandler={deleteProductClickHandler} />
+                                                <SearchResultsListItem product={product} userDetails={userDetails} addItemToBasketClickHandler={addItemToBasketClickHandler} addProductButtonState={addProductButtonState} deleteProductClickHandler={deleteProductClickHandler} setAddProductButtonState={setAddProductButtonState} />
                                             </tr>
                                         )
                                     })}
